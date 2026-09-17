@@ -1,0 +1,2 @@
+"""HomeMind Backend Package."""
+
