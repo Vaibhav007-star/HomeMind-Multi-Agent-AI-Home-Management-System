@@ -9,7 +9,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, Response
 from pydantic import BaseModel, Field
 
 from backend.simulation.simulator import HomeSimulator
@@ -257,7 +257,7 @@ class HomeMindService:
         all_msgs = self.manager.bus.get_all_messages()
         history = [
             {
-                "msg_id": m.msg_id,
+                "msg_id": getattr(m, "message_id", getattr(m, "msg_id", "")),
                 "timestamp": m.timestamp.strftime("%H:%M:%S"),
                 "sender": m.sender.value if hasattr(m.sender, "value") else str(m.sender),
                 "receiver": m.receiver.value if hasattr(m.receiver, "value") else str(m.receiver),
@@ -407,6 +407,18 @@ async def twin3d_view():
     if twin_file.exists():
         return FileResponse(str(twin_file))
     return FileResponse(str(frontend_dir / "index.html"))
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    """Handle browser favicon request cleanly."""
+    fav_file = frontend_dir / "favicon.ico"
+    if fav_file.exists():
+        return FileResponse(str(fav_file))
+    svg_file = frontend_dir / "favicon.svg"
+    if svg_file.exists():
+        return FileResponse(str(svg_file), media_type="image/svg+xml")
+    return Response(status_code=204)
 
 
 @app.get("/api/overview")
