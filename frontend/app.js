@@ -523,3 +523,16 @@ function closeScenarioModal() {
   document.getElementById("scenario-modal").classList.remove("active");
 }
 
+// Close modal on backdrop click or Escape key
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("scenario-modal");
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeScenarioModal();
+    });
+  }
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeScenarioModal();
+  });
+});
+
