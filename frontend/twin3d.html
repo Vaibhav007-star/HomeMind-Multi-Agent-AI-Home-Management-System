@@ -1442,6 +1442,10 @@
         } else if (lower.includes('leaving') || lower.includes('college') || lower.includes('depart')) {
           setGlobalState('AWAY');
           addChatMessage('Home Manager', 'Parsed intent: LEAVING_HOME. Contextual habit matched (Alex Morgan weekday 08:30 departure). Shedding loads and arming perimeter.');
+        } else if (lower.includes('back') || lower.includes('return') || lower.includes('home') || lower.includes('arrived')) {
+          setGlobalState('HOME');
+          rooms.living.occupied = true;
+          addChatMessage('Home Manager', 'Parsed intent: RETURN_HOME. Resident arrival detected in Entrance and Living Room. Disarmed perimeter, unlocked entrance, and restored daytime comfort.');
         } else if (lower.includes('energy') || lower.includes('power') || lower.includes('watt')) {
           addChatMessage('Energy Agent', 'Current total electrical demand is 2,140 W. Top consumer is Living Room AC (1,400 W). Grid tariff is currently in off-peak standard pricing.');
         } else if (lower.includes('secure') || lower.includes('safe') || lower.includes('door')) {

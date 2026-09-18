@@ -214,8 +214,13 @@ class SecurityAgent(BaseAgent):
 
         elif task.command == "DISARM_TO_HOME":
             simulator.env.away_mode_armed = False
+            simulator.set_lock_state(False)
+            simulator.set_occupancy("entrance", True)
+            simulator.set_occupancy("living_room", True)
             actions_executed.append("Disarmed Away Mode to standard Home Mode")
-            report = "Perimeter monitoring set to standard daytime HOME mode."
+            actions_executed.append("Unlocked front entrance smart lock for resident entry")
+            actions_executed.append("Registered resident arrival: Entrance and Living Room Occupied")
+            report = "Perimeter monitoring set to standard daytime HOME mode. Front door unlocked and resident arrival registered in Living Room."
             self.latest_decision = report
 
             return AgentTaskResult(
@@ -223,7 +228,8 @@ class SecurityAgent(BaseAgent):
                 agent_type=self.agent_type,
                 success=True,
                 actions_executed=actions_executed,
-                report=report
+                report=report,
+                data={"lock_state": "UNLOCKED", "away_armed": False, "occupied_rooms": ["Entrance", "Living Room"]}
             )
 
         return AgentTaskResult(

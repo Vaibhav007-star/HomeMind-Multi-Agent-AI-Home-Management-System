@@ -317,6 +317,9 @@ class HomeManagerAgent(BaseAgent):
                 initiator="UserWorkflow"
             )
             simulator.set_global_home_state(plan.target_home_state)
+            if plan.intent == "RETURN_HOME":
+                simulator.set_occupancy("living_room", True)
+                simulator.set_occupancy("entrance", True)
             tr_id = tr_record.transition_id if tr_record else "direct"
             timeline.append({
                 "time": time_str,

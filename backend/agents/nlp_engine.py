@@ -53,8 +53,13 @@ class NLPEngine:
 
         # 1. Return Home Intent (Checked first to prevent false matching on 'returned from college')
         return_patterns = [
-            r"\bi'm home\b", r"\bback home\b", r"\barrived\b", r"\breturned\b",
-            r"\bback from (college|work|class|office)\b", r"\benter(ed)? home\b"
+            r"\b(i'm|i am|we are|we're)?\s*(back|returned|arrived|come|came)\s*(to\s+)?home\b",
+            r"\b(i'm|i am)\s+(back|home)\b",
+            r"\bback\s+(to\s+)?home\b",
+            r"\barrived\b", r"\breturned\b",
+            r"\breach(ed)?\s+home\b",
+            r"\bback from (college|work|class|office|school)\b",
+            r"\benter(ed)? home\b"
         ]
         if any(re.search(pat, prompt_clean) for pat in return_patterns):
             return DelegationPlan(
