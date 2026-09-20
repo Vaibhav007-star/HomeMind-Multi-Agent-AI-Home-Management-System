@@ -921,27 +921,79 @@
     addMesh(new THREE.BoxGeometry(30, 42, 2), materials.woodDark, 0, 22, 121);
     const lockMesh = addMesh(new THREE.BoxGeometry(3, 7, 2.5), materials.metalBlack, 11, 20, 120);
 
-    // --- UTILITY CORNER: WATER TANK TOWER ---
+    // --- UTILITY CORNER: WATER TANK TOWER (Modern Illuminated Azure Reservoir) ---
     const tankGroup = new THREE.Group();
     tankGroup.position.set(-170, 0, -110);
     houseGroup.add(tankGroup);
 
-    // 4 Steel Legs & Braces
-    const legGeo = new THREE.CylinderGeometry(1.2, 1.2, 40, 8);
-    addMesh(legGeo, materials.metalBlack, -9, 20, -9, 0, true, tankGroup);
-    addMesh(legGeo, materials.metalBlack, 9, 20, -9, 0, true, tankGroup);
-    addMesh(legGeo, materials.metalBlack, -9, 20, 9, 0, true, tankGroup);
-    addMesh(legGeo, materials.metalBlack, 9, 20, 9, 0, true, tankGroup);
+    // Structural Galvanized Steel Legs & Base Footplates
+    const tankSteelMat = new THREE.MeshStandardMaterial({
+      color: 0xa0aec0,
+      metalness: 0.85,
+      roughness: 0.2
+    });
+    const tankLegGeo = new THREE.CylinderGeometry(1.4, 1.4, 40, 12);
+    [-9, 9].forEach(lx => {
+      [-9, 9].forEach(lz => {
+        // Main support leg
+        addMesh(tankLegGeo, tankSteelMat, lx, 20, lz, 0, true, tankGroup);
+        // Base plate on foundation
+        addMesh(new THREE.BoxGeometry(4.5, 0.8, 4.5), tankSteelMat, lx, 0.4, lz, 0, true, tankGroup);
+      });
+    });
 
-    // Platform & Cylinder Tank
-    addMesh(new THREE.BoxGeometry(26, 2, 26), materials.metalBlack, 0, 40, 0, 0, true, tankGroup);
-    const tankBodyMesh = addMesh(new THREE.CylinderGeometry(10, 10, 28, 16), materials.metalChrome, 0, 55, 0, 0, true, tankGroup);
-    addMesh(new THREE.CylinderGeometry(11, 11, 2, 16), materials.metalBlack, 0, 69, 0, 0, true, tankGroup); // Cap
+    // Cross-Bracing Struts (Lower & Upper Tiers)
+    [14, 27].forEach(by => {
+      addMesh(new THREE.BoxGeometry(18, 1.2, 1.2), tankSteelMat, 0, by, -9, 0, false, tankGroup);
+      addMesh(new THREE.BoxGeometry(18, 1.2, 1.2), tankSteelMat, 0, by, 9, 0, false, tankGroup);
+      addMesh(new THREE.BoxGeometry(1.2, 1.2, 18), tankSteelMat, -9, by, 0, 0, false, tankGroup);
+      addMesh(new THREE.BoxGeometry(1.2, 1.2, 18), tankSteelMat, 9, by, 0, 0, false, tankGroup);
+    });
 
-    // Water level translucent window
-    const waterLevelMesh = addMesh(new THREE.CylinderGeometry(8.5, 8.5, 20, 16), new THREE.MeshStandardMaterial({
-      color: 0x0284c7, transparent: true, opacity: 0.85, roughness: 0.1
-    }), 0, 52, 0, 0, false, tankGroup);
+    // Elevated Aluminum Platform Deck & Rim
+    const platformMat = new THREE.MeshStandardMaterial({
+      color: 0x64748b,
+      metalness: 0.7,
+      roughness: 0.3
+    });
+    addMesh(new THREE.BoxGeometry(26, 2.5, 26), platformMat, 0, 40, 0, 0, true, tankGroup);
+    addMesh(new THREE.BoxGeometry(27, 0.8, 27), tankSteelMat, 0, 41.2, 0, 0, true, tankGroup);
+
+    // Vibrant Luminous Water Reservoir Tank Body
+    const tankWaterMat = new THREE.MeshStandardMaterial({
+      color: 0x0284c7,
+      emissive: 0x0369a1,
+      emissiveIntensity: 0.5,
+      roughness: 0.15,
+      metalness: 0.1,
+      transparent: true,
+      opacity: 0.92
+    });
+    const waterLevelMesh = addMesh(new THREE.CylinderGeometry(10.5, 10.5, 28, 24), tankWaterMat, 0, 55, 0, 0, true, tankGroup);
+
+    // Polished Chrome Reinforcement Hoops
+    [43, 55, 67].forEach(yPos => {
+      addMesh(new THREE.CylinderGeometry(10.9, 10.9, 1.2, 24), materials.metalChrome, 0, yPos, 0, 0, true, tankGroup);
+    });
+
+    // Brushed Silver Conical Cap & Pressure Relief Valve
+    const tankCapMat = new THREE.MeshStandardMaterial({
+      color: 0xe2e8f0,
+      metalness: 0.8,
+      roughness: 0.15
+    });
+    addMesh(new THREE.CylinderGeometry(2, 11, 4.5, 24), tankCapMat, 0, 71, 0, 0, true, tankGroup);
+    addMesh(new THREE.CylinderGeometry(0.8, 0.8, 3, 8), materials.metalChrome, 0, 74.5, 0, 0, true, tankGroup);
+
+    // Vertical Water Level Gauge on Tank Face
+    addMesh(new THREE.BoxGeometry(2, 20, 0.6), tankSteelMat, 0, 55, 10.7, 0, false, tankGroup);
+    const gaugeGlassMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+    addMesh(new THREE.CylinderGeometry(0.6, 0.6, 18, 8), gaugeGlassMat, 0, 55, 11.2, 0, false, tankGroup);
+
+    // Dedicated Local Tank Illumination
+    const tankPointLight = new THREE.PointLight(0x38bdf8, 1.8, 90);
+    tankPointLight.position.set(0, 56, 8);
+    tankGroup.add(tankPointLight);
 
     // ================================================================
     // UTILITY OVERLAY FLOW LINES (Electricity & Plumbing & Climate)
@@ -950,6 +1002,9 @@
     houseGroup.add(utilitiesGroup);
 
     // 1. Plumbing Conduits (Water Pipe Network)
+    const plumbingGroup = new THREE.Group();
+    utilitiesGroup.add(plumbingGroup);
+
     const plumbingPoints = [
       new THREE.Vector3(-170, 42, -110), // Tank
       new THREE.Vector3(-150, 42, -110),
@@ -965,16 +1020,20 @@
     const plumbingLine = new THREE.Line(plumbingGeo, new THREE.LineBasicMaterial({
       color: 0x38bdf8, linewidth: 3, transparent: true, opacity: 0.95
     }));
-    utilitiesGroup.add(plumbingLine);
+    plumbingGroup.add(plumbingLine);
 
     // Junction Dots on Plumbing
     plumbingPoints.forEach(pt => {
       const dot = new THREE.Mesh(new THREE.SphereGeometry(2, 8, 8), materials.conduitPlumbing);
       dot.position.copy(pt);
-      utilitiesGroup.add(dot);
+      plumbingGroup.add(dot);
     });
 
     // 2. Electricity Conduits (Power Grid Overlay)
+    const powerGroup = new THREE.Group();
+    utilitiesGroup.add(powerGroup);
+    powerGroup.visible = false;
+
     const powerPoints = [
       new THREE.Vector3(-150, 48, 45), // Main Breaker
       new THREE.Vector3(-75, 48, -26), // Living AC
@@ -987,13 +1046,119 @@
     const powerLine = new THREE.Line(powerGeo, new THREE.LineBasicMaterial({
       color: 0xf59e0b, linewidth: 2, transparent: true, opacity: 0.9
     }));
-    utilitiesGroup.add(powerLine);
+    powerGroup.add(powerLine);
 
     powerPoints.forEach(pt => {
       const dot = new THREE.Mesh(new THREE.SphereGeometry(1.8, 8, 8), materials.conduitElectric);
       dot.position.copy(pt);
-      utilitiesGroup.add(dot);
+      powerGroup.add(dot);
     });
+
+    // 3. Climate / AC Airflow Overlay System
+    const climateGroup = new THREE.Group();
+    utilitiesGroup.add(climateGroup);
+    climateGroup.visible = false; // Enabled when AC Air tab is selected
+
+    // Aerodynamic Curved AC Airflow Streamlines
+    const airLineMat = new THREE.LineBasicMaterial({
+      color: 0x38bdf8,
+      transparent: true,
+      opacity: 0.75,
+      linewidth: 2
+    });
+
+    // Living Room AC Streams (Louvers at x: -75, y: 35.5, z: -23)
+    const livingStreams = [
+      { start: new THREE.Vector3(-75, 35.5, -23), mid: new THREE.Vector3(-75, 26, 15), end: new THREE.Vector3(-75, 14, 55) },
+      { start: new THREE.Vector3(-79, 35.5, -23), mid: new THREE.Vector3(-92, 25, 15), end: new THREE.Vector3(-104, 14, 50) },
+      { start: new THREE.Vector3(-71, 35.5, -23), mid: new THREE.Vector3(-58, 25, 15), end: new THREE.Vector3(-46, 14, 50) },
+      { start: new THREE.Vector3(-83, 35.5, -23), mid: new THREE.Vector3(-106, 23, 10), end: new THREE.Vector3(-118, 12, 40) },
+      { start: new THREE.Vector3(-67, 35.5, -23), mid: new THREE.Vector3(-44, 23, 10), end: new THREE.Vector3(-32, 12, 40) }
+    ];
+
+    // Bedroom AC Streams (Louvers at x: 100, y: 35.5, z: -113)
+    const bedStreams = [
+      { start: new THREE.Vector3(100, 35.5, -113), mid: new THREE.Vector3(100, 26, -75), end: new THREE.Vector3(100, 15, -35) },
+      { start: new THREE.Vector3(95, 35.5, -113),  mid: new THREE.Vector3(84, 25, -75),  end: new THREE.Vector3(72, 15, -35) },
+      { start: new THREE.Vector3(105, 35.5, -113), mid: new THREE.Vector3(116, 25, -75), end: new THREE.Vector3(128, 15, -35) },
+      { start: new THREE.Vector3(91, 35.5, -113),  mid: new THREE.Vector3(70, 23, -80),  end: new THREE.Vector3(58, 14, -45) },
+      { start: new THREE.Vector3(109, 35.5, -113), mid: new THREE.Vector3(130, 23, -80), end: new THREE.Vector3(142, 14, -45) }
+    ];
+
+    [...livingStreams, ...bedStreams].forEach(s => {
+      const curve = new THREE.QuadraticBezierCurve3(s.start, s.mid, s.end);
+      const points = curve.getPoints(24);
+      const geo = new THREE.BufferGeometry().setFromPoints(points);
+      const line = new THREE.Line(geo, airLineMat);
+      climateGroup.add(line);
+    });
+
+    // Cold Air Glow Lights at Louvers
+    const livingAcGlow = new THREE.PointLight(0x38bdf8, 1.4, 45);
+    livingAcGlow.position.set(-75, 35.5, -20);
+    climateGroup.add(livingAcGlow);
+
+    const bedAcGlow = new THREE.PointLight(0x38bdf8, 1.4, 45);
+    bedAcGlow.position.set(100, 35.5, -110);
+    climateGroup.add(bedAcGlow);
+
+    // Drifting Cold Air Mist Particles (Procedural Glowing Radial Canvas Texture)
+    function createAirParticleTexture() {
+      const pCanvas = document.createElement('canvas');
+      pCanvas.width = 32;
+      pCanvas.height = 32;
+      const ctx = pCanvas.getContext('2d');
+      const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+      grad.addColorStop(0, 'rgba(224, 242, 254, 1)');
+      grad.addColorStop(0.3, 'rgba(56, 189, 248, 0.85)');
+      grad.addColorStop(0.7, 'rgba(14, 165, 233, 0.25)');
+      grad.addColorStop(1, 'rgba(14, 165, 233, 0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 32, 32);
+      return new THREE.CanvasTexture(pCanvas);
+    }
+
+    const airParticleCount = 160;
+    const airParticleGeo = new THREE.BufferGeometry();
+    const airPositions = new Float32Array(airParticleCount * 3);
+    const airParticleData = [];
+
+    for (let i = 0; i < airParticleCount; i++) {
+      const isLiving = (i < airParticleCount / 2);
+      const origin = isLiving
+        ? new THREE.Vector3(-75, 35.5, -23)
+        : new THREE.Vector3(100, 35.5, -113);
+      
+      const p = {
+        isLiving,
+        origin,
+        progress: Math.random(),
+        speed: 0.007 + Math.random() * 0.007,
+        spreadX: (Math.random() - 0.5) * 36,
+        dropY: -16 - Math.random() * 8,
+        reachZ: 65 + Math.random() * 25,
+        wobble: Math.random() * Math.PI * 2
+      };
+      airParticleData.push(p);
+
+      airPositions[i * 3] = origin.x;
+      airPositions[i * 3 + 1] = origin.y;
+      airPositions[i * 3 + 2] = origin.z;
+    }
+
+    airParticleGeo.setAttribute('position', new THREE.BufferAttribute(airPositions, 3));
+
+    const airParticleMat = new THREE.PointsMaterial({
+      size: 4.8,
+      map: createAirParticleTexture(),
+      transparent: true,
+      opacity: 0.85,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+
+    const airPointsMesh = new THREE.Points(airParticleGeo, airParticleMat);
+    climateGroup.add(airPointsMesh);
 
     // ================================================================
     // FIVE SPECIALIZED AGENT ORBS (Floating with Light Beams)
@@ -1111,9 +1276,28 @@
     }
 
     // ================================================================
-    // TIME-OF-DAY & MOOD SWITCHING
+    // TIME-OF-DAY & MOOD SWITCHING (With Persistent User Selection)
     // ================================================================
-    window.setTimeOfDay = function(tod) {
+    let userLockedMood = false;
+    let lastSyncedHomeState = null;
+
+    function restoreRoomLights(factor = 1.0) {
+      roomLights.living.intensity = 0.85 * factor;
+      roomLights.living.color.setHex(0xffecd2);
+      roomLights.bedroom.intensity = 0.65 * factor;
+      roomLights.bedroom.color.setHex(0xffe2b8);
+      roomLights.kitchen.intensity = 0.75 * factor;
+      roomLights.kitchen.color.setHex(0xfaf5eb);
+      roomLights.bathroom.intensity = 0.65 * factor;
+      roomLights.bathroom.color.setHex(0xccfbf1);
+      roomLights.entrance.intensity = 0.6 * factor;
+      roomLights.entrance.color.setHex(0xffedd5);
+    }
+
+    window.setTimeOfDay = function(tod, fromUser = true) {
+      if (fromUser) {
+        userLockedMood = true;
+      }
       timeOfDayMode = tod;
       ['morning', 'home', 'sleep', 'away'].forEach(m => {
         const btn = document.getElementById(`tod-${m}`);
@@ -1133,6 +1317,7 @@
         sunLight.position.set(300, 200, 200);
         hemiLight.color.setHex(0xfde68a);
         hemiLight.intensity = 0.6;
+        restoreRoomLights(0.75);
         renderer.setClearColor(0x0c1322);
       } else if (tod === 'home') {
         // Bright daytime crisp natural light
@@ -1141,12 +1326,14 @@
         sunLight.position.set(240, 420, 200);
         hemiLight.color.setHex(0x7da4d4);
         hemiLight.intensity = 0.5;
+        restoreRoomLights(1.0);
         renderer.setClearColor(0x070b12);
       } else if (tod === 'sleep') {
         // Deep cozy nighttime with glowing interior lamps
         sunLight.intensity = 0.15;
         sunLight.color.setHex(0x38bdf8);
         hemiLight.intensity = 0.2;
+        restoreRoomLights(0.2);
         roomLights.bedroom.intensity = 1.4;
         roomLights.bedroom.color.setHex(0xfbbf24);
         roomLights.living.intensity = 0.1;
@@ -1156,7 +1343,7 @@
         sunLight.intensity = 0.3;
         sunLight.color.setHex(0x94a3b8);
         hemiLight.intensity = 0.3;
-        Object.values(roomLights).forEach(pl => pl.intensity = 0.05);
+        restoreRoomLights(0.08);
         renderer.setClearColor(0x06090f);
       }
     };
@@ -1172,21 +1359,24 @@
       const tabAc = document.getElementById('tab-util-ac');
 
       [tabPlumb, tabPower, tabAc].forEach(t => {
-        t.className = 'px-2 py-1 rounded-lg text-[11px] font-medium transition bg-slate-800/80 text-slate-400 border border-slate-700/60 hover:text-white flex items-center space-x-1';
+        if (t) t.className = 'px-2 py-1 rounded-lg text-[11px] font-medium transition bg-slate-800/80 text-slate-400 border border-slate-700/60 hover:text-white flex items-center space-x-1';
       });
 
       if (mode === 'plumbing') {
-        tabPlumb.className = 'px-2 py-1 rounded-lg text-[11px] font-medium transition bg-blue-500/20 text-blue-300 border border-blue-500/40 flex items-center space-x-1';
-        plumbingLine.visible = true;
-        powerLine.visible = false;
+        if (tabPlumb) tabPlumb.className = 'px-2 py-1 rounded-lg text-[11px] font-medium transition bg-blue-500/20 text-blue-300 border border-blue-500/40 flex items-center space-x-1';
+        plumbingGroup.visible = true;
+        powerGroup.visible = false;
+        climateGroup.visible = false;
       } else if (mode === 'power') {
-        tabPower.className = 'px-2 py-1 rounded-lg text-[11px] font-medium transition bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center space-x-1';
-        plumbingLine.visible = false;
-        powerLine.visible = true;
+        if (tabPower) tabPower.className = 'px-2 py-1 rounded-lg text-[11px] font-medium transition bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center space-x-1';
+        plumbingGroup.visible = false;
+        powerGroup.visible = true;
+        climateGroup.visible = false;
       } else if (mode === 'climate') {
-        tabAc.className = 'px-2 py-1 rounded-lg text-[11px] font-medium transition bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 flex items-center space-x-1';
-        plumbingLine.visible = false;
-        powerLine.visible = false;
+        if (tabAc) tabAc.className = 'px-2 py-1 rounded-lg text-[11px] font-medium transition bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 flex items-center space-x-1';
+        plumbingGroup.visible = false;
+        powerGroup.visible = false;
+        climateGroup.visible = true;
       }
     };
 
@@ -1260,6 +1450,7 @@
     // SCENARIO RUNNER & LIVE SYNC
     // ================================================================
     window.runScenario = async function(id) {
+      userLockedMood = false; // Allow scenario to dynamically guide the environment
       try {
         const res = await fetch(`/api/scenario/${id}`, { method: 'POST' });
         if (res.ok) {
@@ -1282,23 +1473,36 @@
       }
     };
 
-    window.setGlobalState = function(state) {
+    window.setGlobalState = function(state, forceLighting = false) {
       globalHomeState = state;
-      document.getElementById('home-state-text').textContent = state;
+      const textEl = document.getElementById('home-state-text');
+      if (textEl) textEl.textContent = state;
       const badge = document.getElementById('state-badge');
 
-      if (state === 'AWAY') {
-        badge.className = 'flex items-center space-x-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-semibold tracking-wide';
-        setTimeOfDay('away');
-      } else if (state === 'SLEEP') {
-        badge.className = 'flex items-center space-x-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold tracking-wide';
-        setTimeOfDay('sleep');
-      } else if (state === 'MORNING') {
-        badge.className = 'flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold tracking-wide';
-        setTimeOfDay('morning');
-      } else {
-        badge.className = 'flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold tracking-wide';
-        setTimeOfDay('home');
+      if (badge) {
+        if (state === 'AWAY') {
+          badge.className = 'flex items-center space-x-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-semibold tracking-wide';
+        } else if (state === 'SLEEP') {
+          badge.className = 'flex items-center space-x-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold tracking-wide';
+        } else if (state === 'MORNING') {
+          badge.className = 'flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold tracking-wide';
+        } else {
+          badge.className = 'flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold tracking-wide';
+        }
+      }
+
+      // Only alter visual 3D lighting mood if user hasn't explicitly clicked a mood toggle,
+      // or if forceLighting is set (such as natural language chat intent or scenario)
+      if (!userLockedMood || forceLighting) {
+        if (state === 'AWAY') {
+          setTimeOfDay('away', false);
+        } else if (state === 'SLEEP') {
+          setTimeOfDay('sleep', false);
+        } else if (state === 'MORNING') {
+          setTimeOfDay('morning', false);
+        } else {
+          setTimeOfDay('home', false);
+        }
       }
     };
 
@@ -1332,13 +1536,13 @@
       setTimeout(() => {
         const lower = text.toLowerCase();
         if (lower.includes('sleep') || lower.includes('bed')) {
-          setGlobalState('SLEEP');
+          setGlobalState('SLEEP', true);
           addChatMessage('Home Manager', 'Parsed intent: SLEEP_MODE. Transitioned to SLEEP; dimmed interior lights, quiet bedroom AC set, front door locked.');
         } else if (lower.includes('leaving') || lower.includes('college') || lower.includes('depart')) {
-          setGlobalState('AWAY');
+          setGlobalState('AWAY', true);
           addChatMessage('Home Manager', 'Parsed intent: LEAVING_HOME. Shedding non-essential loads, AC shut down, away perimeter defense armed.');
         } else if (lower.includes('back') || lower.includes('return') || lower.includes('home') || lower.includes('arrived')) {
-          setGlobalState('HOME');
+          setGlobalState('HOME', true);
           rooms.living.occupied = true;
           rooms.entrance.occupied = true;
           addChatMessage('Home Manager', 'Parsed intent: RETURN_HOME. Welcome home! Perimeter disarmed, entrance unlocked, welcoming comfort restored.');
@@ -1366,14 +1570,21 @@
       });
     };
 
-    // Live Backend Polling
+    // Live Backend Polling (Non-destructive: respects user-selected mood)
     async function syncWithBackend() {
       try {
         const res = await fetch('/api/overview');
         if (!res.ok) return;
         const data = await res.json();
 
-        if (data.home_state) setGlobalState(data.home_state);
+        if (data.home_state && data.home_state !== lastSyncedHomeState) {
+          lastSyncedHomeState = data.home_state;
+          setGlobalState(data.home_state, false);
+        } else if (data.home_state && !lastSyncedHomeState) {
+          lastSyncedHomeState = data.home_state;
+          setGlobalState(data.home_state, false);
+        }
+
         if (data.sim_time) document.getElementById('clock-display').textContent = data.sim_time;
 
         if (data.energy) {
@@ -1508,14 +1719,44 @@
         ag.ring.scale.setScalar(1 + Math.sin(animTime * 3 + idx) * 0.15);
       });
 
-      // Animate Plumbing Flow / Leak Alert Pulse
+      // Animate Plumbing Flow / Leak Alert Pulse & Water Tank Illumination
       if (leakActive) {
         const pulse = 0.5 + Math.sin(animTime * 6) * 0.5;
         plumbingLine.material.opacity = pulse;
-        waterLevelMesh.material.color.setHex((pulse > 0.5) ? 0xf43f5e : 0x0284c7);
+        const isAlert = (pulse > 0.5);
+        waterLevelMesh.material.color.setHex(isAlert ? 0xf43f5e : 0x0284c7);
+        waterLevelMesh.material.emissive.setHex(isAlert ? 0xbe123c : 0x0369a1);
+        tankPointLight.color.setHex(isAlert ? 0xf43f5e : 0x38bdf8);
       } else {
         plumbingLine.material.opacity = 0.9;
         waterLevelMesh.material.color.setHex(0x0284c7);
+        waterLevelMesh.material.emissive.setHex(0x0369a1);
+        tankPointLight.color.setHex(0x38bdf8);
+      }
+
+      // Animate Climate AC Airflow (Streamlines pulsing & cool mist drift particles)
+      if (climateGroup && climateGroup.visible) {
+        airLineMat.opacity = 0.55 + Math.sin(animTime * 4) * 0.25;
+        const posArr = airParticleGeo.attributes.position.array;
+        for (let i = 0; i < airParticleCount; i++) {
+          const d = airParticleData[i];
+          d.progress += d.speed;
+          if (d.progress > 1.0) {
+            d.progress = 0;
+            d.spreadX = (Math.random() - 0.5) * 36;
+            d.reachZ = 65 + Math.random() * 25;
+          }
+          const t = d.progress;
+          const forward = t * d.reachZ;
+          const down = Math.sin(t * Math.PI * 0.5) * d.dropY;
+          const side = Math.sin(t * Math.PI * 0.4) * d.spreadX + Math.sin(animTime * 3 + d.wobble) * 1.5;
+
+          const idx = i * 3;
+          posArr[idx] = d.origin.x + side;
+          posArr[idx + 1] = d.origin.y + down;
+          posArr[idx + 2] = d.origin.z + forward;
+        }
+        airParticleGeo.attributes.position.needsUpdate = true;
       }
 
       // Render 3D Scene
