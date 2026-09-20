@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HomeMind — 3D Interactive Digital Twin &amp; Multi-Agent System</title>
+  <title>HomeMind — 3D Dollhouse Apartment Walkthrough</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.ico">
   <!-- Tailwind CSS -->
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
@@ -14,47 +14,74 @@
     }
     @keyframes floatAgent {
       0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-6px); }
+      50% { transform: translateY(-5px); }
+    }
+    @keyframes dashMove {
+      to { stroke-dashoffset: -12; }
     }
     .animate-pulse-glow { animation: pulseGlow 2.5s infinite ease-in-out; }
     .animate-float { animation: floatAgent 3s infinite ease-in-out; }
+    .animate-dash { animation: dashMove 1s linear infinite; }
+    
     .glass-panel {
-      background: rgba(15, 23, 42, 0.78);
+      background: rgba(11, 17, 32, 0.82);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
+    .glass-pill {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .glass-pill:hover {
+      border-color: rgba(129, 140, 248, 0.4);
+      background: rgba(30, 41, 59, 0.85);
+    }
+    .corner-bracket {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-color: rgba(129, 140, 248, 0.6);
+      pointer-events: none;
+    }
+    .corner-tl { top: 0; left: 0; border-top: 2px solid; border-left: 2px solid; }
+    .corner-tr { top: 0; right: 0; border-top: 2px solid; border-right: 2px solid; }
+    .corner-bl { bottom: 0; left: 0; border-bottom: 2px solid; border-left: 2px solid; }
+    .corner-br { bottom: 0; right: 0; border-bottom: 2px solid; border-right: 2px solid; }
+    
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.1); }
     ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased overflow-x-hidden min-h-screen selection:bg-indigo-500 selection:text-white">
+<body class="bg-[#080c14] text-slate-100 font-sans antialiased overflow-x-hidden min-h-screen selection:bg-indigo-500 selection:text-white">
 
   <!-- Main App Shell -->
   <div class="flex flex-col h-screen overflow-hidden">
 
     <!-- Top Navigation Header -->
-    <header class="glass-panel border-b border-slate-800/80 px-5 py-3 flex items-center justify-between z-30 shrink-0">
+    <header class="glass-panel border-b border-slate-800/80 px-5 py-2.5 flex items-center justify-between z-30 shrink-0">
       <div class="flex items-center space-x-3">
-        <a href="/" class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-cyan-400 shadow-lg shadow-indigo-500/25">
-          <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <a href="/" class="relative flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-cyan-400 shadow-lg shadow-indigo-500/25">
+          <svg class="w-4.5 h-4.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
             <polyline points="9 22 9 12 15 12 15 22"/>
           </svg>
-          <span class="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-slate-950 animate-ping"></span>
-          <span class="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-slate-950"></span>
+          <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full border-2 border-slate-950 animate-ping"></span>
+          <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full border-2 border-slate-950"></span>
         </a>
         <div>
           <div class="flex items-center space-x-2">
-            <h1 class="text-base font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-indigo-300 bg-clip-text text-transparent">HomeMind</h1>
-            <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">3D Twin</span>
+            <h1 class="text-sm font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-indigo-300 bg-clip-text text-transparent">HomeMind</h1>
+            <span class="text-[9px] uppercase font-mono px-1.5 py-0.2 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Dollhouse Twin</span>
           </div>
-          <p class="text-xs text-slate-400 hidden sm:block">Multi-Agent AI Home Management System</p>
+          <p class="text-[11px] text-slate-400 hidden sm:block">Multi-Agent AI Home Management System</p>
         </div>
       </div>
 
-      <!-- State Pill & Real-time Clock -->
+      <!-- Center State Pill & Real-time Clock -->
       <div class="flex items-center space-x-3">
         <div id="state-badge" class="flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold tracking-wide">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -67,37 +94,22 @@
           </svg>
           <span id="clock-display">07:30 AM</span>
         </div>
-
-        <!-- Global State Trigger Dropdown -->
-        <div class="relative group">
-          <button class="px-2.5 py-1 text-xs rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition shadow-sm flex items-center space-x-1">
-            <span>State</span>
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="absolute right-0 mt-1 w-36 py-1 bg-slate-900 border border-slate-800 rounded-lg shadow-xl hidden group-hover:block z-50 text-xs">
-            <a href="javascript:void(0)" onclick="setGlobalState('HOME')" class="block px-3 py-1.5 hover:bg-indigo-600/30 text-slate-200">HOME</a>
-            <a href="javascript:void(0)" onclick="setGlobalState('AWAY')" class="block px-3 py-1.5 hover:bg-indigo-600/30 text-slate-200">AWAY</a>
-            <a href="javascript:void(0)" onclick="setGlobalState('SLEEP')" class="block px-3 py-1.5 hover:bg-indigo-600/30 text-slate-200">SLEEP</a>
-            <a href="javascript:void(0)" onclick="setGlobalState('MORNING')" class="block px-3 py-1.5 hover:bg-indigo-600/30 text-slate-200">MORNING</a>
-            <a href="javascript:void(0)" onclick="setGlobalState('EMERGENCY')" class="block px-3 py-1.5 hover:bg-rose-600/30 text-rose-300">EMERGENCY</a>
-          </div>
-        </div>
       </div>
 
-      <!-- Quick Action Scenarios & 2D Switch -->
+      <!-- Quick Action Scenarios & 2D Link -->
       <div class="flex items-center space-x-2">
         <a href="/" class="px-2.5 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition">
           2D Dashboard
         </a>
         <button onclick="runScenario(1)" class="hidden lg:inline-flex px-2.5 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition">
-          Morning
+          Scen 1: Morning
         </button>
         <button onclick="runScenario(2)" class="hidden lg:inline-flex px-2.5 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition">
-          Leaving
+          Scen 2: Leaving
         </button>
         <button onclick="runScenario(3)" class="px-2.5 py-1 text-xs rounded bg-rose-950/60 hover:bg-rose-900/80 text-rose-300 border border-rose-800/80 transition flex items-center space-x-1">
           <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping"></span>
-          <span>Leak Anomaly</span>
+          <span>Scen 3: Water Leak</span>
         </button>
       </div>
     </header>
@@ -106,109 +118,179 @@
     <div class="flex-1 flex overflow-hidden relative">
 
       <!-- LEFT: Primary 3D Digital Twin Viewport -->
-      <div class="flex-1 relative flex flex-col overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+      <div class="flex-1 relative flex flex-col overflow-hidden bg-[#070b12]">
 
-        <!-- 3D Canvas Layer -->
+        <!-- 3D WebGL Canvas Layer -->
         <canvas id="twin3d" class="w-full h-full cursor-grab active:cursor-grabbing block"></canvas>
 
-        <!-- 3D Viewport Overlay HUD (Top Left) -->
+        <!-- Dynamic 2D SVG Leader Lines Layer (Screen Space Overlay) -->
+        <svg id="leader-lines-layer" class="absolute inset-0 w-full h-full pointer-events-none z-10"></svg>
+
+        <!-- Floating Frosted Room Badges Container -->
+        <div id="room-badges-container" class="absolute inset-0 pointer-events-none z-10"></div>
+
+        <!-- TOP-LEFT: Utilities Overlays & Time-of-Day Toggles -->
         <div class="absolute top-4 left-4 z-20 flex flex-col space-y-2 pointer-events-none">
-          <div class="glass-panel pointer-events-auto rounded-xl p-3 shadow-2xl max-w-xs border border-slate-700/50">
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-[11px] font-mono tracking-wider text-indigo-400 uppercase font-semibold">Selected Target</span>
-              <span id="target-type-badge" class="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">ROOM</span>
+          
+          <!-- Category Header: Utilities Tabs -->
+          <div class="glass-panel pointer-events-auto rounded-xl p-2.5 shadow-2xl border border-slate-700/60 max-w-xs">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10px] font-mono tracking-widest text-indigo-400 uppercase font-semibold">Utilities</span>
+              <span class="text-[9px] px-1.5 py-0.2 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 font-mono">FLOW OVERLAY</span>
             </div>
-            <h3 id="target-name" class="text-sm font-bold text-white mb-1">Living Room</h3>
-            <p id="target-desc" class="text-xs text-slate-400 mb-2">Central living lounge with AC cooling, TV entertainment, and ambient lights.</p>
+            <div class="flex items-center space-x-1">
+              <button id="tab-util-plumbing" onclick="setUtilityMode('plumbing')" class="px-2 py-1 rounded-lg text-[11px] font-medium transition bg-blue-500/20 text-blue-300 border border-blue-500/40 flex items-center space-x-1">
+                <span>💧</span><span>Water</span>
+              </button>
+              <button id="tab-util-power" onclick="setUtilityMode('power')" class="px-2 py-1 rounded-lg text-[11px] font-medium transition bg-slate-800/80 text-slate-400 border border-slate-700/60 hover:text-amber-300 flex items-center space-x-1">
+                <span>⚡</span><span>Electricity</span>
+              </button>
+              <button id="tab-util-ac" onclick="setUtilityMode('climate')" class="px-2 py-1 rounded-lg text-[11px] font-medium transition bg-slate-800/80 text-slate-400 border border-slate-700/60 hover:text-cyan-300 flex items-center space-x-1">
+                <span>❄️</span><span>AC Air</span>
+              </button>
+            </div>
+
+            <!-- Time-of-day Lighting Switch (Reference Style) -->
+            <div class="mt-2.5 pt-2 border-t border-slate-800/80">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[9px] font-mono uppercase text-slate-400">Environment Mood</span>
+              </div>
+              <div class="grid grid-cols-4 gap-1">
+                <button onclick="setTimeOfDay('morning')" id="tod-morning" class="py-1 px-1 rounded text-[10px] text-center font-mono transition bg-slate-800/80 text-slate-400 hover:text-amber-300 border border-slate-700/60">
+                  Morning
+                </button>
+                <button onclick="setTimeOfDay('home')" id="tod-home" class="py-1 px-1 rounded text-[10px] text-center font-mono transition bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                  Day
+                </button>
+                <button onclick="setTimeOfDay('sleep')" id="tod-sleep" class="py-1 px-1 rounded text-[10px] text-center font-mono transition bg-slate-800/80 text-slate-400 hover:text-indigo-300 border border-slate-700/60">
+                  Night
+                </button>
+                <button onclick="setTimeOfDay('away')" id="tod-away" class="py-1 px-1 rounded text-[10px] text-center font-mono transition bg-slate-800/80 text-slate-400 hover:text-rose-300 border border-slate-700/60">
+                  Away
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Selected Target Inspector Card -->
+          <div class="glass-panel pointer-events-auto rounded-xl p-3 shadow-2xl max-w-xs border border-slate-700/60">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10px] font-mono tracking-wider text-indigo-400 uppercase font-semibold">Selected Target</span>
+              <span id="target-type-badge" class="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 font-mono">ROOM</span>
+            </div>
+            <h3 id="target-name" class="text-xs font-bold text-white mb-0.5">Living Room</h3>
+            <p id="target-desc" class="text-[11px] text-slate-400 mb-2">Central living lounge with sectional sofa, TV, plant, and AC cooling.</p>
             <div class="grid grid-cols-2 gap-2 text-xs font-mono pt-2 border-t border-slate-800/80">
               <div>
-                <span class="text-[10px] text-slate-500 block">TEMP</span>
-                <span id="target-temp" class="text-cyan-400 font-semibold">24.2 C</span>
+                <span class="text-[9px] text-slate-500 block">TEMPERATURE</span>
+                <span id="target-temp" class="text-cyan-400 font-semibold text-xs">24.0 °C</span>
               </div>
               <div>
-                <span class="text-[10px] text-slate-500 block">DEMAND</span>
-                <span id="target-watts" class="text-amber-400 font-semibold">1,420 W</span>
+                <span class="text-[9px] text-slate-500 block">DEMAND</span>
+                <span id="target-watts" class="text-amber-400 font-semibold text-xs">1,420 W</span>
               </div>
             </div>
           </div>
 
-          <!-- Live Particle & Mode Toggles -->
-          <div class="glass-panel pointer-events-auto rounded-lg p-1.5 flex items-center space-x-1 text-xs">
-            <button id="btn-airflow" onclick="toggleParticles('airflow')" class="px-2 py-1 rounded text-[11px] font-medium transition bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-              AC Airflow
+        </div>
+
+        <!-- TOP-RIGHT: Mini Floor Plan with Bracket Frame (Reference Style) -->
+        <div class="absolute top-4 right-4 z-20 pointer-events-none">
+          <div class="relative glass-panel pointer-events-auto rounded-xl p-2.5 shadow-2xl border border-slate-800/90 w-44">
+            <!-- Corner Brackets -->
+            <div class="corner-bracket corner-tl"></div>
+            <div class="corner-bracket corner-tr"></div>
+            <div class="corner-bracket corner-bl"></div>
+            <div class="corner-bracket corner-br"></div>
+
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10px] font-mono uppercase text-slate-400">Layout</span>
+              <button onclick="setCameraPreset('top')" class="text-[10px] text-indigo-400 hover:text-indigo-300 font-mono flex items-center gap-0.5 transition">
+                <span>View Floor plan</span>
+                <span>↗</span>
+              </button>
+            </div>
+
+            <!-- Mini 2D SVG Line-art Floor Plan of the 5 HomeMind Rooms -->
+            <div class="w-full h-24 bg-slate-950/80 rounded border border-slate-800/80 p-1 flex items-center justify-center">
+              <svg viewBox="-160 -130 330 300" class="w-full h-full">
+                <!-- Living Room -->
+                <rect id="mini-living" onclick="selectRoom('living')" x="-150" y="-30" width="190" height="150" fill="rgba(99, 102, 241, 0.15)" stroke="#6366f1" stroke-width="2" class="cursor-pointer hover:fill-indigo-500/30"/>
+                <text x="-55" y="45" fill="#c7d2fe" font-size="18" text-anchor="middle" font-family="monospace">LIVING</text>
+                
+                <!-- Bedroom -->
+                <rect id="mini-bedroom" onclick="selectRoom('bedroom')" x="40" y="-120" width="120" height="150" fill="rgba(6, 182, 212, 0.15)" stroke="#06b6d4" stroke-width="2" class="cursor-pointer hover:fill-cyan-500/30"/>
+                <text x="100" y="-45" fill="#a5f3fc" font-size="18" text-anchor="middle" font-family="monospace">BED</text>
+                
+                <!-- Kitchen -->
+                <rect id="mini-kitchen" onclick="selectRoom('kitchen')" x="-150" y="-120" width="110" height="90" fill="rgba(245, 158, 11, 0.15)" stroke="#f59e0b" stroke-width="2" class="cursor-pointer hover:fill-amber-500/30"/>
+                <text x="-95" y="-75" fill="#fde68a" font-size="18" text-anchor="middle" font-family="monospace">KIT</text>
+                
+                <!-- Bathroom -->
+                <rect id="mini-bathroom" onclick="selectRoom('bathroom')" x="-40" y="-120" width="80" height="90" fill="rgba(16, 185, 129, 0.15)" stroke="#10b981" stroke-width="2" class="cursor-pointer hover:fill-emerald-500/30"/>
+                <text x="0" y="-75" fill="#a7f3d0" font-size="18" text-anchor="middle" font-family="monospace">BATH</text>
+                
+                <!-- Entrance Foyer -->
+                <rect id="mini-entrance" onclick="selectRoom('entrance')" x="-40" y="120" width="80" height="45" fill="rgba(148, 163, 184, 0.15)" stroke="#94a3b8" stroke-width="2" class="cursor-pointer hover:fill-slate-500/30"/>
+                <text x="0" y="145" fill="#e2e8f0" font-size="16" text-anchor="middle" font-family="monospace">FOYER</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM-LEFT: Quick Stats Chips (Reference Style) -->
+        <div class="absolute bottom-4 left-4 z-20 flex flex-col space-y-1.5 pointer-events-none">
+          <div class="flex items-center space-x-1.5 pointer-events-auto">
+            <div class="glass-pill px-2.5 py-1 rounded-lg flex items-center space-x-1.5 text-xs text-slate-300">
+              <span>🏠</span><span class="font-mono text-[11px]">Rooms: <strong class="text-white">5</strong></span>
+            </div>
+            <div class="glass-pill px-2.5 py-1 rounded-lg flex items-center space-x-1.5 text-xs text-slate-300">
+              <span>🤖</span><span class="font-mono text-[11px]">Agents: <strong class="text-indigo-400">5</strong></span>
+            </div>
+            <div class="glass-pill px-2.5 py-1 rounded-lg flex items-center space-x-1.5 text-xs text-slate-300">
+              <span>⚡</span><span class="font-mono text-[11px]"><strong id="stat-watts" class="text-amber-400">2,140 W</strong></span>
+            </div>
+            <div class="glass-pill px-2.5 py-1 rounded-lg flex items-center space-x-1.5 text-xs text-slate-300">
+              <span>💧</span><span class="font-mono text-[11px]"><strong id="stat-water" class="text-blue-400">72%</strong></span>
+            </div>
+            <div id="stat-sec-pill" class="glass-pill px-2.5 py-1 rounded-lg flex items-center space-x-1.5 text-xs text-emerald-400 border-emerald-500/30">
+              <span>🛡️</span><span id="stat-sec-text" class="font-mono text-[11px] font-semibold">SECURE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM-RIGHT: View Switch Thumbnails (Reference Style) -->
+        <div class="absolute bottom-4 right-4 z-20 flex items-center space-x-1.5 pointer-events-none">
+          <div class="glass-panel pointer-events-auto rounded-xl p-1.5 flex items-center space-x-1 shadow-2xl border border-slate-800 text-xs">
+            <button onclick="setCameraPreset('isometric')" id="btn-preset-iso" title="Isometric Walkthrough View" class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-mono text-[11px] font-semibold shadow transition">
+              ISO 3D
             </button>
-            <button id="btn-powergrid" onclick="toggleParticles('power')" class="px-2 py-1 rounded text-[11px] font-medium transition bg-amber-500/20 text-amber-300 border border-amber-500/30">
-              Power Grid
+            <button onclick="setCameraPreset('top')" id="btn-preset-top" title="Top-down Floorplan Blueprint" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono text-[11px] transition">
+              TOP
             </button>
-            <button id="btn-waterflow" onclick="toggleParticles('water')" class="px-2 py-1 rounded text-[11px] font-medium transition bg-blue-500/20 text-blue-300 border border-blue-500/30">
-              Plumbing
+            <button onclick="setCameraPreset('living')" id="btn-preset-living" title="Living Room Lounge Focus" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono text-[11px] transition">
+              LIVING
+            </button>
+            <button onclick="setCameraPreset('bedroom')" id="btn-preset-bedroom" title="Master Bedroom Focus" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono text-[11px] transition">
+              BEDROOM
+            </button>
+            <div class="h-4 w-[1px] bg-slate-700 mx-0.5"></div>
+            <button id="btn-autorotate" onclick="toggleAutoRotate()" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-indigo-300 font-mono text-[11px] transition flex items-center space-x-1">
+              <span>Orbit ⟳</span>
             </button>
           </div>
         </div>
 
-        <!-- 3D Camera Controls Overlay (Bottom Left) -->
-        <div class="absolute bottom-4 left-4 z-20 flex items-center space-x-1.5 glass-panel rounded-lg p-1.5 text-xs shadow-xl border border-slate-800">
-          <button onclick="setCameraPreset('isometric')" title="Isometric 3D" class="px-2 py-1 rounded bg-slate-800 hover:bg-indigo-600 text-slate-200 transition font-mono text-[11px]">
-            ISO 3D
-          </button>
-          <button onclick="setCameraPreset('top')" title="Top-down Floorplan" class="px-2 py-1 rounded bg-slate-800 hover:bg-indigo-600 text-slate-200 transition font-mono text-[11px]">
-            TOP
-          </button>
-          <button onclick="setCameraPreset('living')" title="Living Room Focus" class="px-2 py-1 rounded bg-slate-800 hover:bg-indigo-600 text-slate-200 transition font-mono text-[11px]">
-            LIVING
-          </button>
-          <button onclick="setCameraPreset('bedroom')" title="Bedroom Focus" class="px-2 py-1 rounded bg-slate-800 hover:bg-indigo-600 text-slate-200 transition font-mono text-[11px]">
-            BEDROOM
-          </button>
-          <div class="h-4 w-[1px] bg-slate-700 mx-1"></div>
-          <button id="btn-autorotate" onclick="toggleAutoRotate()" class="px-2 py-1 rounded bg-slate-800 hover:bg-indigo-600 text-indigo-300 transition font-mono text-[11px]">
-            Orbit
-          </button>
-        </div>
-
-        <!-- 3D Navigation Guide (Bottom Center) -->
-        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 pointer-events-none hidden md:block">
+        <!-- Center Bottom Navigation Guide -->
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 pointer-events-none hidden xl:block">
           <div class="glass-panel px-3 py-1 rounded-full text-[10px] font-mono text-slate-400 border border-slate-800/80">
-            Left Click: Orbit &bull; Right Click / Shift: Pan &bull; Scroll: Zoom &bull; Click Object: Inspect
-          </div>
-        </div>
-
-        <!-- Key Sensor Overlay Badges (Top Right of 3D viewport) -->
-        <div class="absolute top-4 right-4 z-20 flex flex-col space-y-2">
-          <div class="glass-panel rounded-xl p-2.5 border border-slate-800 shadow-xl flex items-center space-x-3 text-xs">
-            <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold">
-              W
-            </div>
-            <div>
-              <span class="text-[10px] text-slate-400 block font-mono">POWER DEMAND</span>
-              <span id="hud-power" class="text-sm font-bold text-white font-mono">2,140 W</span>
-            </div>
-          </div>
-
-          <div class="glass-panel rounded-xl p-2.5 border border-slate-800 shadow-xl flex items-center space-x-3 text-xs">
-            <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold">
-              T
-            </div>
-            <div>
-              <span class="text-[10px] text-slate-400 block font-mono">AVG INDOOR</span>
-              <span id="hud-temp" class="text-sm font-bold text-white font-mono">24.0 C</span>
-            </div>
-          </div>
-
-          <div class="glass-panel rounded-xl p-2.5 border border-slate-800 shadow-xl flex items-center space-x-3 text-xs">
-            <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold">
-              H2O
-            </div>
-            <div>
-              <span class="text-[10px] text-slate-400 block font-mono">WATER TANK</span>
-              <span id="hud-water" class="text-sm font-bold text-white font-mono">720 L (72%)</span>
-            </div>
+            Left Click: Orbit &bull; Right Click: Pan &bull; Scroll: Zoom &bull; Click Furniture/Badge: Inspect
           </div>
         </div>
 
       </div>
 
-      <!-- RIGHT: Multi-Agent Intelligence & Telemetry Sidebar -->
+      <!-- RIGHT: Multi-Agent Intelligence & Telemetry Sidebar (Preserved 100%) -->
       <div class="w-96 glass-panel border-l border-slate-800/80 flex flex-col shrink-0 z-20 h-full overflow-hidden">
 
         <!-- Tabs Header -->
@@ -420,994 +502,807 @@
   }
   </script>
 
-  <!-- 3D Interactive Canvas Logic & Engine (Three.js WebGL) -->
+  <!-- 3D Interactive WebGL Engine (Three.js) -->
   <script type="module">
     import * as THREE from 'three';
 
     // ================================================================
-    // STATE & DATA (preserved from original)
+    // STATE & DATA
     // ================================================================
     let globalHomeState = 'HOME';
+    let timeOfDayMode = 'home'; // 'morning', 'home', 'sleep', 'away'
+    let activeUtility = 'plumbing'; // 'plumbing', 'power', 'climate'
     let simTime = '07:30 AM';
-    let particlesEnabled = { airflow: true, power: true, water: true };
     let autoRotateEnabled = true;
     let selectedRoomId = 'living';
     let leakActive = false;
-    let time = 0;
+    let animTime = 0;
 
     const rooms = {
       living: {
         id: 'living', name: 'Living Room',
-        desc: 'Central living lounge with AC, TV, fan, and ambient ceiling lights.',
-        x1: -150, z1: -30, x2: 40, z2: 120, height: 55,
-        occupied: true, temp: 24.0, watts: 1420
+        desc: 'Spacious open-concept living lounge with sectional sofa, TV, rug, indoor plant, and AC cooling.',
+        x1: -150, z1: -30, x2: 40, z2: 120, height: 50,
+        occupied: true, temp: 24.0, watts: 1420,
+        anchor: new THREE.Vector3(-55, 6, 45)
       },
       bedroom: {
         id: 'bedroom', name: 'Bedroom',
-        desc: 'Resident private sanctuary with quiet inverter AC and gentle fan.',
-        x1: 40, z1: -120, x2: 160, z2: 30, height: 55,
-        occupied: false, temp: 23.5, watts: 45
+        desc: 'Master bedroom suite with queen bed, integrated reading sconces, wardrobe, and quiet inverter AC.',
+        x1: 40, z1: -120, x2: 160, z2: 30, height: 50,
+        occupied: false, temp: 23.5, watts: 45,
+        anchor: new THREE.Vector3(100, 6, -45)
       },
       kitchen: {
         id: 'kitchen', name: 'Kitchen',
-        desc: 'Culinary space with refrigerator load and municipal water inlet.',
-        x1: -150, z1: -120, x2: -40, z2: -30, height: 55,
-        occupied: false, temp: 26.0, watts: 280
+        desc: 'Quartz culinary island with steel sink, induction range, stainless French-door fridge, and bistro table.',
+        x1: -150, z1: -120, x2: -40, z2: -30, height: 50,
+        occupied: false, temp: 26.0, watts: 280,
+        anchor: new THREE.Vector3(-95, 6, -75)
       },
       bathroom: {
         id: 'bathroom', name: 'Bathroom',
-        desc: 'Water fixtures, plumbing manifolds, and leak monitoring sensors.',
-        x1: -40, z1: -120, x2: 40, z2: -30, height: 55,
-        occupied: false, temp: 25.0, watts: 20
+        desc: 'Contemporary bath with freestanding soaking tub, floating vanity basin, and plumbing sensors.',
+        x1: -40, z1: -120, x2: 40, z2: -30, height: 50,
+        occupied: false, temp: 25.0, watts: 20,
+        anchor: new THREE.Vector3(0, 6, -75)
       },
       entrance: {
         id: 'entrance', name: 'Entrance Foyer',
-        desc: 'Smart lock perimeter contact and entrance motion security radar.',
-        x1: -40, z1: 120, x2: 40, z2: 165, height: 55,
-        occupied: false, temp: 27.0, watts: 15
+        desc: 'Formal arrival entryway with console table, full-length mirror, and smart entrance lock radar.',
+        x1: -40, z1: 120, x2: 40, z2: 165, height: 50,
+        occupied: false, temp: 27.0, watts: 15,
+        anchor: new THREE.Vector3(0, 6, 142)
       }
     };
 
     const agentDefs = [
-      { name: 'Home Manager', type: 'manager', role: 'Orchestrator', color: 0xa855f7, hexStr: '#a855f7', baseY: 22, speed: 0.02 },
-      { name: 'Energy Agent', type: 'energy', role: 'Energy & Power', color: 0xf59e0b, hexStr: '#f59e0b', baseY: 20, speed: 0.025 },
-      { name: 'Comfort Agent', type: 'comfort', role: 'Climate & Air', color: 0x06b6d4, hexStr: '#06b6d4', baseY: 20, speed: 0.022 },
-      { name: 'Security Agent', type: 'security', role: 'Perimeter Defense', color: 0x10b981, hexStr: '#10b981', baseY: 18, speed: 0.028 },
-      { name: 'Resource Agent', type: 'resource', role: 'Water & Supplies', color: 0x3b82f6, hexStr: '#3b82f6', baseY: 20, speed: 0.024 }
+      { name: 'Home Manager', type: 'manager', role: 'Orchestrator', color: 0xa855f7, hexStr: '#a855f7', baseY: 22, home: { x: -55, z: 45 } },
+      { name: 'Energy Agent', type: 'energy', role: 'Energy & Power', color: 0xf59e0b, hexStr: '#f59e0b', baseY: 20, home: { x: -80, z: 10 } },
+      { name: 'Comfort Agent', type: 'comfort', role: 'Climate & Air', color: 0x06b6d4, hexStr: '#06b6d4', baseY: 20, home: { x: 100, z: -45 } },
+      { name: 'Security Agent', type: 'security', role: 'Perimeter Defense', color: 0x10b981, hexStr: '#10b981', baseY: 18, home: { x: 0, z: 142 } },
+      { name: 'Resource Agent', type: 'resource', role: 'Water & Supplies', color: 0x3b82f6, hexStr: '#3b82f6', baseY: 20, home: { x: -110, z: -90 } }
     ];
 
-    // Assign agent home positions (above their rooms)
-    function getAgentHomePos(type) {
-      switch(type) {
-        case 'manager':  return { x: -55, z: 45 };
-        case 'energy':   return { x: -80, z: 10 };
-        case 'comfort':  return { x: 100, z: -45 };
-        case 'security': return { x: 0, z: 142 };
-        case 'resource': return { x: -110, z: -90 };
-      }
-    }
-
     // ================================================================
-    // THREE.JS CORE SETUP
+    // THREE.JS SCENE SETUP
     // ================================================================
     const canvas = document.getElementById('twin3d');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.setClearColor(0x080c14);
+    renderer.setClearColor(0x070b12);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.1;
+    renderer.toneMappingExposure = 1.15;
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x080c14, 0.00065);
+    scene.fog = new THREE.FogExp2(0x070b12, 0.0006);
 
-    const cam = new THREE.PerspectiveCamera(40, 1, 1, 5000);
+    const camera = new THREE.PerspectiveCamera(38, 1, 1, 4000);
 
     // ================================================================
-    // LIGHTING
+    // CAMERA RIG & ORBIT CONTROLS
     // ================================================================
-    const hemiLight = new THREE.HemisphereLight(0x6688cc, 0x443322, 0.4);
+    let camYaw = -0.785; // 45 degree isometric
+    let camPitch = 0.58;
+    let camDist = 580;
+    let targetYaw = camYaw;
+    let targetPitch = camPitch;
+    let targetDist = camDist;
+    let lookTarget = new THREE.Vector3(0, 10, 15);
+    let currentLook = lookTarget.clone();
+
+    let isDragging = false;
+    let isPanning = false;
+    let wasDrag = false;
+    let prevMouse = { x: 0, y: 0 };
+    let downMouse = { x: 0, y: 0 };
+
+    function updateCamera() {
+      camYaw += (targetYaw - camYaw) * 0.08;
+      camPitch += (targetPitch - camPitch) * 0.08;
+      camDist += (targetDist - camDist) * 0.08;
+      currentLook.lerp(lookTarget, 0.08);
+
+      const cx = currentLook.x + camDist * Math.cos(camPitch) * Math.sin(camYaw);
+      const cy = currentLook.y + camDist * Math.sin(camPitch);
+      const cz = currentLook.z + camDist * Math.cos(camPitch) * Math.cos(camYaw);
+
+      camera.position.set(cx, cy, cz);
+      camera.lookAt(currentLook);
+    }
+
+    // ================================================================
+    // LIGHTING RIG (Time-of-day adjustable)
+    // ================================================================
+    const hemiLight = new THREE.HemisphereLight(0x7da4d4, 0x222633, 0.5);
     scene.add(hemiLight);
 
-    const sunLight = new THREE.DirectionalLight(0xffeedd, 0.75);
-    sunLight.position.set(200, 350, 150);
+    const sunLight = new THREE.DirectionalLight(0xfff7ed, 0.9);
+    sunLight.position.set(240, 420, 200);
     sunLight.castShadow = true;
     sunLight.shadow.mapSize.width = 2048;
     sunLight.shadow.mapSize.height = 2048;
-    sunLight.shadow.camera.near = 10;
-    sunLight.shadow.camera.far = 1200;
-    sunLight.shadow.camera.left = -300;
-    sunLight.shadow.camera.right = 300;
-    sunLight.shadow.camera.top = 300;
-    sunLight.shadow.camera.bottom = -300;
-    sunLight.shadow.bias = -0.0005;
+    sunLight.shadow.camera.near = 20;
+    sunLight.shadow.camera.far = 1400;
+    sunLight.shadow.camera.left = -320;
+    sunLight.shadow.camera.right = 320;
+    sunLight.shadow.camera.top = 320;
+    sunLight.shadow.camera.bottom = -320;
+    sunLight.shadow.bias = -0.0004;
     scene.add(sunLight);
 
-    const ambLight = new THREE.AmbientLight(0x1a1a2e, 0.35);
-    scene.add(ambLight);
+    const fillLight = new THREE.DirectionalLight(0x818cf8, 0.25);
+    fillLight.position.set(-200, 250, -200);
+    scene.add(fillLight);
 
-    // Per-room point lights
-    const roomLights = {};
-    Object.keys(rooms).forEach(key => {
-      const r = rooms[key];
-      const cx = (r.x1 + r.x2) / 2;
-      const cz = (r.z1 + r.z2) / 2;
-      const pl = new THREE.PointLight(0xffeedd, 0.5, 250, 1.5);
-      pl.position.set(cx, 42, cz);
-      scene.add(pl);
-      roomLights[key] = pl;
-    });
+    // Warm Interior Point Lights for Rooms
+    const roomLights = {
+      living:   new THREE.PointLight(0xffecd2, 0.85, 240, 1.2),
+      bedroom:  new THREE.PointLight(0xffe2b8, 0.65, 200, 1.2),
+      kitchen:  new THREE.PointLight(0xfaf5eb, 0.75, 180, 1.2),
+      bathroom: new THREE.PointLight(0xccfbf1, 0.65, 160, 1.2),
+      entrance: new THREE.PointLight(0xffedd5, 0.6, 140, 1.2)
+    };
+
+    roomLights.living.position.set(-55, 38, 45);
+    roomLights.bedroom.position.set(100, 38, -45);
+    roomLights.kitchen.position.set(-95, 38, -75);
+    roomLights.bathroom.position.set(0, 38, -75);
+    roomLights.entrance.position.set(0, 38, 142);
+
+    Object.values(roomLights).forEach(pl => scene.add(pl));
 
     // ================================================================
-    // MATERIALS
+    // MATERIALS PALETTE (Architectural & Realistic)
     // ================================================================
-    const M = {
-      woodFloor:     new THREE.MeshStandardMaterial({ color: 0x8B7355, roughness: 0.85, metalness: 0.05 }),
-      tileFloor:     new THREE.MeshStandardMaterial({ color: 0xc4b5a0, roughness: 0.4, metalness: 0.02 }),
-      bathFloor:     new THREE.MeshStandardMaterial({ color: 0x7ea8b8, roughness: 0.35, metalness: 0.05 }),
-      stoneFloor:    new THREE.MeshStandardMaterial({ color: 0x5a5a5a, roughness: 0.9 }),
-      wall:          new THREE.MeshStandardMaterial({ color: 0xe8e0d8, roughness: 0.75 }),
-      wallCut:       new THREE.MeshStandardMaterial({ color: 0xe8e0d8, roughness: 0.75, transparent: true, opacity: 0.3 }),
-      wallInner:     new THREE.MeshStandardMaterial({ color: 0xd5cec6, roughness: 0.8 }),
-      furniture:     new THREE.MeshStandardMaterial({ color: 0x5a5a5a, roughness: 0.6, metalness: 0.1 }),
-      sofa:          new THREE.MeshStandardMaterial({ color: 0x6a7d6a, roughness: 0.85 }),
-      sofaCushion:   new THREE.MeshStandardMaterial({ color: 0x7a8f7a, roughness: 0.9 }),
-      bed:           new THREE.MeshStandardMaterial({ color: 0x668888, roughness: 0.9 }),
-      bedFrame:      new THREE.MeshStandardMaterial({ color: 0x6b5b4b, roughness: 0.7, metalness: 0.1 }),
-      pillow:        new THREE.MeshStandardMaterial({ color: 0xccccdd, roughness: 0.95 }),
-      blanket:       new THREE.MeshStandardMaterial({ color: 0x8888aa, roughness: 0.9 }),
-      counter:       new THREE.MeshStandardMaterial({ color: 0x9a8a6a, roughness: 0.5, metalness: 0.1 }),
-      fridge:        new THREE.MeshStandardMaterial({ color: 0xcccccc, roughness: 0.3, metalness: 0.4 }),
-      porcelain:     new THREE.MeshStandardMaterial({ color: 0xf0f0f0, roughness: 0.2, metalness: 0.1 }),
-      acUnit:        new THREE.MeshStandardMaterial({ color: 0xe0e0e0, roughness: 0.3, metalness: 0.2 }),
-      tvBody:        new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.2, metalness: 0.5 }),
-      tvScreen:      new THREE.MeshStandardMaterial({ color: 0x111122, roughness: 0.05, metalness: 0.3, emissive: 0x220044, emissiveIntensity: 0.0 }),
-      metalLeg:      new THREE.MeshStandardMaterial({ color: 0x777777, roughness: 0.4, metalness: 0.6 }),
-      doorFrame:     new THREE.MeshStandardMaterial({ color: 0x5a4a3a, roughness: 0.6, metalness: 0.05 }),
-      waterTank:     new THREE.MeshStandardMaterial({ color: 0x3388cc, roughness: 0.25, metalness: 0.2, transparent: true, opacity: 0.45 }),
-      waterFill:     new THREE.MeshStandardMaterial({ color: 0x3b82f6, transparent: true, opacity: 0.55, emissive: 0x1a4f8a, emissiveIntensity: 0.15 }),
+    const materials = {
+      // Slab Foundation & Perimeter
+      foundation:     new THREE.MeshStandardMaterial({ color: 0x111624, roughness: 0.8, metalness: 0.1 }),
+      slabBevel:      new THREE.MeshStandardMaterial({ color: 0x1a2136, roughness: 0.6, metalness: 0.2 }),
+      groundShadow:   new THREE.MeshBasicMaterial({ color: 0x03060c, transparent: true, opacity: 0.75 }),
+      
+      // Flooring Materials
+      floorWood:      new THREE.MeshStandardMaterial({ color: 0xb58855, roughness: 0.45, metalness: 0.05 }), // warm parquet
+      floorBedWood:   new THREE.MeshStandardMaterial({ color: 0xa87c4f, roughness: 0.5, metalness: 0.05 }),
+      floorTileKitch: new THREE.MeshStandardMaterial({ color: 0xd6d2cb, roughness: 0.35, metalness: 0.1 }), // porcelain tile
+      floorTileBath:  new THREE.MeshStandardMaterial({ color: 0x6e8a94, roughness: 0.3, metalness: 0.1 }),  // aqua slate tile
+      floorStoneFoyer:new THREE.MeshStandardMaterial({ color: 0x3b3e45, roughness: 0.7, metalness: 0.15 }), // dark granite
+      
+      // Walls
+      wallFull:       new THREE.MeshStandardMaterial({ color: 0xe0dad1, roughness: 0.85 }),
+      wallCutaway:    new THREE.MeshStandardMaterial({ color: 0xe0dad1, roughness: 0.85, transparent: true, opacity: 0.35 }),
+      wallTopRail:    new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.5, metalness: 0.2 }),
+      baseboard:      new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.6 }),
+
+      // Furniture Materials
+      sofaFabric:     new THREE.MeshStandardMaterial({ color: 0x374151, roughness: 0.9 }),
+      cushionMustard: new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.95 }),
+      cushionTeal:    new THREE.MeshStandardMaterial({ color: 0x0891b2, roughness: 0.95 }),
+      woodLight:      new THREE.MeshStandardMaterial({ color: 0xd4a373, roughness: 0.6 }),
+      woodDark:       new THREE.MeshStandardMaterial({ color: 0x4a3b32, roughness: 0.7 }),
+      woodWalnut:     new THREE.MeshStandardMaterial({ color: 0x3d2b1f, roughness: 0.65 }),
+      metalChrome:    new THREE.MeshStandardMaterial({ color: 0xd1d5db, roughness: 0.2, metalness: 0.85 }),
+      metalBlack:     new THREE.MeshStandardMaterial({ color: 0x1f2937, roughness: 0.5, metalness: 0.5 }),
+      tvScreen:       new THREE.MeshStandardMaterial({ color: 0x0a0c16, roughness: 0.2, emissive: 0x1e1b4b, emissiveIntensity: 0.5 }),
+      acrylicWhite:   new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.25 }),
+      quartzWhite:    new THREE.MeshStandardMaterial({ color: 0xf1f5f9, roughness: 0.3, metalness: 0.1 }),
+      glassTranslucent:new THREE.MeshStandardMaterial({ color: 0x93c5fd, transparent: true, opacity: 0.4, roughness: 0.1 }),
+      leafGreen:      new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.7 }),
+      potCeramic:     new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.4 }),
+      rugLiving:      new THREE.MeshStandardMaterial({ color: 0xa1998e, roughness: 0.95 }),
+      rugBed:         new THREE.MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.95 }),
+      bedDuvet:       new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.9 }),
+      bedSheet:       new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.95 }),
+
+      // Flow Overlays
+      conduitElectric:new THREE.MeshBasicMaterial({ color: 0xf59e0b }),
+      conduitPlumbing:new THREE.MeshBasicMaterial({ color: 0x38bdf8 }),
+      conduitLeak:    new THREE.MeshBasicMaterial({ color: 0xf43f5e })
     };
 
     // ================================================================
-    // HELPER: BOX BUILDER
+    // DOLLHOUSE GEOMETRY BUILDER
     // ================================================================
-    function box(parent, x, y, z, w, h, d, mat, castS = true) {
-      const geo = new THREE.BoxGeometry(w, h, d);
-      const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.set(x, y, z);
-      if (castS) { mesh.castShadow = true; }
-      mesh.receiveShadow = true;
-      parent.add(mesh);
-      return mesh;
+    const houseGroup = new THREE.Group();
+    scene.add(houseGroup);
+
+    // 1. Soft Under-Building Contact Shadow & Elevated Base
+    const shadowGeo = new THREE.PlaneGeometry(360, 360);
+    const shadowMesh = new THREE.Mesh(shadowGeo, materials.groundShadow);
+    shadowMesh.rotation.x = -Math.PI / 2;
+    shadowMesh.position.y = -6;
+    scene.add(shadowMesh);
+
+    // Foundation Slab
+    const slabGeo = new THREE.BoxGeometry(325, 6, 305);
+    const slabMesh = new THREE.Mesh(slabGeo, materials.foundation);
+    slabMesh.position.set(5, -3, 20);
+    slabMesh.receiveShadow = true;
+    houseGroup.add(slabMesh);
+
+    // 2. Build Individual Room Floors & Wall Perimeters
+    const roomFloorMeshes = {};
+
+    function createRoom(r) {
+      const rx = (r.x1 + r.x2) / 2;
+      const rz = (r.z1 + r.z2) / 2;
+      const rw = r.x2 - r.x1;
+      const rd = r.z2 - r.z1;
+
+      // Determine floor material
+      let floorMat = materials.floorWood;
+      if (r.id === 'kitchen') floorMat = materials.floorTileKitch;
+      else if (r.id === 'bathroom') floorMat = materials.floorTileBath;
+      else if (r.id === 'entrance') floorMat = materials.floorStoneFoyer;
+      else if (r.id === 'bedroom') floorMat = materials.floorBedWood;
+
+      const floorGeo = new THREE.BoxGeometry(rw, 1.2, rd);
+      const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+      floorMesh.position.set(rx, 0.6, rz);
+      floorMesh.receiveShadow = true;
+      floorMesh.userData = { roomId: r.id, isFloor: true };
+      houseGroup.add(floorMesh);
+      roomFloorMeshes[r.id] = floorMesh;
+
+      // Outer & Cutaway Walls
+      const wallThick = 2.5;
+      const fullH = r.height;
+      const cutH = 14; // Low dollhouse cutaway
+
+      // Back Wall (z1)
+      const bGeo = new THREE.BoxGeometry(rw, fullH, wallThick);
+      const bWall = new THREE.Mesh(bGeo, materials.wallFull);
+      bWall.position.set(rx, fullH / 2, r.z1 + wallThick / 2);
+      bWall.castShadow = true;
+      bWall.receiveShadow = true;
+      houseGroup.add(bWall);
+
+      // Left Wall (x1)
+      const lH = (r.x1 === -150) ? fullH : cutH;
+      const lMat = (r.x1 === -150) ? materials.wallFull : materials.wallCutaway;
+      const lGeo = new THREE.BoxGeometry(wallThick, lH, rd);
+      const lWall = new THREE.Mesh(lGeo, lMat);
+      lWall.position.set(r.x1 + wallThick / 2, lH / 2, rz);
+      lWall.castShadow = (lH === fullH);
+      lWall.receiveShadow = true;
+      houseGroup.add(lWall);
+
+      // Front Cutaway Wall (z2)
+      const fGeo = new THREE.BoxGeometry(rw, cutH, wallThick);
+      const fWall = new THREE.Mesh(fGeo, materials.wallCutaway);
+      fWall.position.set(rx, cutH / 2, r.z2 - wallThick / 2);
+      fWall.receiveShadow = true;
+      houseGroup.add(fWall);
+
+      // Right Cutaway Wall (x2)
+      const rH = (r.x2 === 160) ? fullH * 0.75 : cutH;
+      const rMat = (r.x2 === 160) ? materials.wallFull : materials.wallCutaway;
+      const rGeo = new THREE.BoxGeometry(wallThick, rH, rd);
+      const rWall = new THREE.Mesh(rGeo, rMat);
+      rWall.position.set(r.x2 - wallThick / 2, rH / 2, rz);
+      rWall.receiveShadow = true;
+      houseGroup.add(rWall);
     }
 
-    // ================================================================
-    // GROUND PLANE & GRID
-    // ================================================================
-    function buildGround() {
-      const gridH = new THREE.GridHelper(700, 40, 0x151a28, 0x101520);
-      gridH.position.y = -0.1;
-      scene.add(gridH);
+    Object.values(rooms).forEach(r => createRoom(r));
 
-      const groundGeo = new THREE.PlaneGeometry(800, 800);
-      const groundMat = new THREE.MeshStandardMaterial({ color: 0x0a0e16, roughness: 1.0 });
-      const ground = new THREE.Mesh(groundGeo, groundMat);
-      ground.rotation.x = -Math.PI / 2;
-      ground.position.y = -0.5;
-      ground.receiveShadow = true;
-      scene.add(ground);
+    // ================================================================
+    // RICH PROCEDURAL FURNITURE (Dollhouse Realism)
+    // ================================================================
+    const furnitureGroup = new THREE.Group();
+    houseGroup.add(furnitureGroup);
+
+    function addMesh(geo, mat, x, y, z, rotY = 0, castShadow = true, parent = furnitureGroup) {
+      const m = new THREE.Mesh(geo, mat);
+      m.position.set(x, y, z);
+      if (rotY) m.rotation.y = rotY;
+      m.castShadow = castShadow;
+      m.receiveShadow = true;
+      parent.add(m);
+      return m;
     }
 
-    // ================================================================
-    // ROOM GEOMETRY BUILDER
-    // ================================================================
-    const roomFloors = {};  // for raycasting
+    // --- LIVING ROOM ---
+    // Area Rug
+    addMesh(new THREE.BoxGeometry(110, 0.4, 80), materials.rugLiving, -55, 1.3, 45, 0, false);
+    
+    // L-Shaped Sectional Sofa
+    const sofaBase1 = addMesh(new THREE.BoxGeometry(65, 8, 26), materials.sofaFabric, -70, 5, 25);
+    const sofaBack1 = addMesh(new THREE.BoxGeometry(65, 14, 8), materials.sofaFabric, -70, 11, 15);
+    const sofaBase2 = addMesh(new THREE.BoxGeometry(26, 8, 42), materials.sofaFabric, -100, 5, 46); // L extension
+    const sofaBack2 = addMesh(new THREE.BoxGeometry(8, 14, 42), materials.sofaFabric, -112, 11, 46);
+    
+    // Throw Cushions
+    addMesh(new THREE.BoxGeometry(9, 9, 4), materials.cushionMustard, -85, 11, 21, 0.1);
+    addMesh(new THREE.BoxGeometry(9, 9, 4), materials.cushionTeal, -58, 11, 21, -0.15);
+    addMesh(new THREE.BoxGeometry(9, 9, 4), materials.cushionMustard, -105, 11, 45, 1.4);
 
-    function buildRoom(key, r) {
-      const group = new THREE.Group();
-      const w = r.x2 - r.x1;
-      const d = r.z2 - r.z1;
-      const cx = (r.x1 + r.x2) / 2;
-      const cz = (r.z1 + r.z2) / 2;
-      const h = r.height;
-      const wt = 3;  // wall thickness
-      const cutH = h * 0.30;  // cutaway wall height
+    // Coffee Table with Magazine
+    addMesh(new THREE.BoxGeometry(36, 6, 22), materials.woodLight, -65, 4.2, 50);
+    addMesh(new THREE.BoxGeometry(8, 0.6, 12), materials.quartzWhite, -70, 7.5, 50, 0.3); // open magazine
 
-      // Select floor material
-      let fMat = M.stoneFloor;
-      if (key === 'living' || key === 'bedroom') fMat = M.woodFloor;
-      else if (key === 'kitchen') fMat = M.tileFloor;
-      else if (key === 'bathroom') fMat = M.bathFloor;
+    // TV Console & OLED TV
+    addMesh(new THREE.BoxGeometry(60, 7, 12), materials.woodWalnut, -55, 4.5, 95);
+    const tvScreenMesh = addMesh(new THREE.BoxGeometry(48, 28, 1.5), materials.tvScreen, -55, 22, 95);
+    addMesh(new THREE.BoxGeometry(12, 1.5, 6), materials.metalBlack, -55, 8.5, 95); // TV Stand neck
 
-      // Floor slab
-      const floor = box(group, cx, 0.5, cz, w, 1, d, fMat, false);
-      floor.userData = { roomId: key };
-      roomFloors[key] = floor;
-
-      // Walls - back (z1) and left (x1) full height, front (z2) and right (x2) cutaway
-      // Back wall
-      box(group, cx, h / 2, r.z1 - wt / 2, w, h, wt, M.wall);
-      // Left wall
-      box(group, r.x1 - wt / 2, h / 2, cz, wt, h, d, M.wall);
-      // Front wall (cutaway - low)
-      box(group, cx, cutH / 2, r.z2 + wt / 2, w, cutH, wt, M.wallCut);
-      // Right wall (cutaway - low)
-      box(group, r.x2 + wt / 2, cutH / 2, cz, wt, cutH, d, M.wallCut);
-
-      // Ceiling edge rails
-      const edgeMat = new THREE.LineBasicMaterial({ color: 0x556677, transparent: true, opacity: 0.35 });
-      const pts = [
-        new THREE.Vector3(r.x1, h, r.z1), new THREE.Vector3(r.x2, h, r.z1),
-        new THREE.Vector3(r.x2, h, r.z2), new THREE.Vector3(r.x1, h, r.z2),
-        new THREE.Vector3(r.x1, h, r.z1)
-      ];
-      group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), edgeMat));
-
-      scene.add(group);
-      return group;
+    // Potted Monstera / Fiddle Plant
+    const pot = addMesh(new THREE.CylinderGeometry(6, 4.5, 14, 12), materials.potCeramic, -130, 8, 20);
+    for (let i = 0; i < 5; i++) {
+      const ang = (i / 5) * Math.PI * 2;
+      const lx = -130 + Math.cos(ang) * 5;
+      const lz = 20 + Math.sin(ang) * 5;
+      addMesh(new THREE.SphereGeometry(4, 6, 4), materials.leafGreen, lx, 16 + (i % 2) * 3, lz);
     }
 
-    // ================================================================
-    // FURNITURE & DEVICES
-    // ================================================================
-    let tvMesh, livingAcMesh, bedAcMesh, lockMesh;
-    let acGlowLiving, acGlowBed;
+    // Wall-mounted AC unit
+    const livingAc = addMesh(new THREE.BoxGeometry(26, 8, 6), materials.acrylicWhite, -75, 38, -26);
+    addMesh(new THREE.BoxGeometry(20, 1.2, 0.5), materials.metalBlack, -75, 35.5, -23); // louver
 
-    function buildAllFurniture() {
-      // ---- LIVING ROOM ----
-      // Sofa (back wall area, facing center)
-      box(scene, -80, 6, 100, 72, 12, 22, M.sofa);
-      box(scene, -80, 16, 110, 72, 10, 5, M.sofa);  // backrest
-      // Armrests
-      box(scene, -115, 10, 100, 4, 8, 22, M.sofa);
-      box(scene, -45, 10, 100, 4, 8, 22, M.sofa);
-      // Cushions
-      box(scene, -95, 13, 97, 28, 3, 18, M.sofaCushion);
-      box(scene, -65, 13, 97, 28, 3, 18, M.sofaCushion);
+    // --- BEDROOM ---
+    // Bed Runner Rug
+    addMesh(new THREE.BoxGeometry(75, 0.4, 90), materials.rugBed, 100, 1.3, -45, 0, false);
 
-      // Coffee table
-      box(scene, -80, 5.5, 68, 38, 2, 20, M.counter);
-      box(scene, -95, 2.5, 60, 2, 5, 2, M.metalLeg);
-      box(scene, -65, 2.5, 60, 2, 5, 2, M.metalLeg);
-      box(scene, -95, 2.5, 76, 2, 5, 2, M.metalLeg);
-      box(scene, -65, 2.5, 76, 2, 5, 2, M.metalLeg);
+    // Platform Bed & Dark Oak Headboard
+    addMesh(new THREE.BoxGeometry(55, 10, 70), materials.woodWalnut, 100, 6, -42);
+    addMesh(new THREE.BoxGeometry(60, 24, 4), materials.woodDark, 100, 13, -76); // Headboard
+    addMesh(new THREE.BoxGeometry(50, 7, 62), materials.bedSheet, 100, 12, -40); // Mattress
+    addMesh(new THREE.BoxGeometry(50, 4, 42), materials.bedDuvet, 100, 15, -30); // Duvet
 
-      // TV stand
-      box(scene, -55, 7, -24, 50, 14, 14, M.furniture);
-      // TV screen
-      tvMesh = box(scene, -55, 30, -26, 52, 30, 2, M.tvScreen);
-      box(scene, -55, 30, -27.5, 54, 32, 1, M.tvBody); // TV frame
+    // Dual Pillows
+    addMesh(new THREE.BoxGeometry(18, 4, 12), materials.acrylicWhite, 86, 15, -64, 0.05);
+    addMesh(new THREE.BoxGeometry(18, 4, 12), materials.acrylicWhite, 114, 15, -64, -0.05);
 
-      // Living AC unit (on left wall near ceiling)
-      livingAcMesh = box(scene, -146, 44, 30, 5, 10, 30, M.acUnit);
-      // AC glow ring
-      const acGlowGeo = new THREE.BoxGeometry(1, 2, 32);
-      const acGlowMat = new THREE.MeshBasicMaterial({ color: 0x06b6d4, transparent: true, opacity: 0.0 });
-      acGlowLiving = new THREE.Mesh(acGlowGeo, acGlowMat);
-      acGlowLiving.position.set(-146, 38, 30);
-      scene.add(acGlowLiving);
+    // Nightstands & Reading Lamps
+    addMesh(new THREE.BoxGeometry(12, 9, 12), materials.woodLight, 65, 5.5, -70);
+    addMesh(new THREE.CylinderGeometry(2.5, 3.5, 6, 8), materials.acrylicWhite, 65, 13, -70); // Lamp 1
+    addMesh(new THREE.BoxGeometry(12, 9, 12), materials.woodLight, 135, 5.5, -70);
+    addMesh(new THREE.CylinderGeometry(2.5, 3.5, 6, 8), materials.acrylicWhite, 135, 13, -70); // Lamp 2
 
-      // Rug under coffee table
-      const rugGeo = new THREE.PlaneGeometry(90, 60);
-      const rugMat = new THREE.MeshStandardMaterial({ color: 0x5a4a3a, roughness: 0.95 });
-      const rug = new THREE.Mesh(rugGeo, rugMat);
-      rug.rotation.x = -Math.PI / 2;
-      rug.position.set(-80, 1.2, 80);
-      rug.receiveShadow = true;
-      scene.add(rug);
+    // Wardrobe Closet
+    addMesh(new THREE.BoxGeometry(14, 40, 50), materials.woodDark, 151, 21, -20);
+    
+    // Bedroom AC unit
+    addMesh(new THREE.BoxGeometry(22, 7, 5), materials.acrylicWhite, 100, 38, -116);
 
-      // ---- BEDROOM ----
-      // Bed frame
-      box(scene, 100, 4, -65, 56, 8, 72, M.bedFrame);
-      // Mattress
-      box(scene, 100, 10, -65, 52, 5, 68, M.blanket);
-      // Pillow
-      box(scene, 100, 14, -96, 32, 4, 12, M.pillow);
-      // Headboard
-      box(scene, 100, 22, -100, 56, 22, 3, M.bedFrame);
-      // Nightstand
-      box(scene, 66, 7, -96, 16, 14, 14, M.furniture);
-      // Small lamp on nightstand
-      box(scene, 66, 16, -96, 4, 4, 4, M.metalLeg);
-      box(scene, 66, 20, -96, 8, 2, 8, M.pillow);
+    // --- KITCHEN ---
+    // L-Shaped Counter Island (White Quartz top + dark wood base)
+    addMesh(new THREE.BoxGeometry(52, 14, 18), materials.woodDark, -118, 8, -42);
+    addMesh(new THREE.BoxGeometry(54, 2, 20), materials.quartzWhite, -118, 16, -42); // Top
+    addMesh(new THREE.BoxGeometry(18, 14, 40), materials.woodDark, -135, 8, -70);
+    addMesh(new THREE.BoxGeometry(20, 2, 42), materials.quartzWhite, -135, 16, -70); // Return top
 
-      // Bedroom AC
-      bedAcMesh = box(scene, 156, 44, -45, 5, 10, 30, M.acUnit);
-      const acGlowMat2 = new THREE.MeshBasicMaterial({ color: 0x06b6d4, transparent: true, opacity: 0.0 });
-      acGlowBed = new THREE.Mesh(new THREE.BoxGeometry(1, 2, 32), acGlowMat2);
-      acGlowBed.position.set(156, 38, -45);
-      scene.add(acGlowBed);
+    // Undermount Steel Sink & Chrome Gooseneck Faucet
+    addMesh(new THREE.BoxGeometry(14, 1, 10), materials.metalBlack, -118, 16.5, -42);
+    addMesh(new THREE.CylinderGeometry(0.7, 0.7, 5, 8), materials.metalChrome, -118, 19, -46);
 
-      // Wardrobe
-      box(scene, 145, 22, -110, 22, 44, 14, M.furniture);
+    // Induction Cooktop (Black Glass)
+    addMesh(new THREE.BoxGeometry(16, 0.4, 12), materials.metalBlack, -135, 17.2, -75);
 
-      // ---- KITCHEN ----
-      // Counter along back wall
-      box(scene, -95, 14, -115, 85, 28, 14, M.counter);
-      // Backsplash
-      box(scene, -95, 34, -119, 85, 12, 2, M.tileFloor);
-      // Fridge
-      box(scene, -142, 27, -112, 16, 54, 18, M.fridge);
-      // Fridge handle
-      box(scene, -135, 30, -103.5, 1, 14, 1, M.metalLeg);
-      // Sink (darker area on counter top)
-      box(scene, -75, 28.5, -114, 18, 1, 10, M.bathFloor);
-      // Small dining table
-      box(scene, -95, 13, -60, 34, 2, 28, M.counter);
-      box(scene, -95, 6.5, -60, 4, 13, 4, M.metalLeg);
-      // Chair
-      box(scene, -82, 7, -48, 10, 2, 10, M.furniture);
-      box(scene, -82, 3, -48, 2, 7, 2, M.metalLeg);
-      box(scene, -82, 14, -43, 10, 12, 2, M.furniture); // back
+    // French-Door Stainless Refrigerator
+    addMesh(new THREE.BoxGeometry(22, 38, 18), materials.metalChrome, -60, 20, -108);
+    addMesh(new THREE.BoxGeometry(0.8, 12, 0.8), materials.metalBlack, -61, 24, -98); // Left handle
+    addMesh(new THREE.BoxGeometry(0.8, 12, 0.8), materials.metalBlack, -59, 24, -98); // Right handle
 
-      // ---- BATHROOM ----
-      // Bathtub
-      box(scene, 12, 8, -103, 36, 16, 22, M.porcelain);
-      // Inner tub (slightly recessed darker)
-      box(scene, 12, 10, -103, 30, 8, 16, M.bathFloor);
-      // Toilet
-      box(scene, 30, 6, -52, 12, 12, 14, M.porcelain);
-      box(scene, 30, 14, -58, 12, 6, 4, M.porcelain); // tank
-      // Sink
-      box(scene, -18, 13, -52, 16, 2, 12, M.porcelain);
-      box(scene, -18, 6.5, -52, 3, 13, 3, M.metalLeg); // pedestal
-      // Mirror (on back wall above sink)
-      box(scene, -18, 35, -119, 20, 22, 1, new THREE.MeshStandardMaterial({ color: 0xaabbcc, roughness: 0.05, metalness: 0.8 }));
+    // Bistro Dining Table & 2 Scandinavian Chairs
+    addMesh(new THREE.CylinderGeometry(14, 14, 1.5, 16), materials.woodLight, -80, 12, -85);
+    addMesh(new THREE.CylinderGeometry(1.5, 1.5, 11, 8), materials.metalBlack, -80, 6.5, -85); // Pedestal leg
+    // Chair 1 & 2
+    addMesh(new THREE.BoxGeometry(8, 1, 8), materials.woodLight, -92, 7.5, -85);
+    addMesh(new THREE.BoxGeometry(8, 8, 1), materials.woodLight, -96, 11.5, -85);
+    addMesh(new THREE.BoxGeometry(8, 1, 8), materials.woodLight, -68, 7.5, -85);
+    addMesh(new THREE.BoxGeometry(8, 8, 1), materials.woodLight, -64, 11.5, -85);
 
-      // ---- ENTRANCE FOYER ----
-      // Console table
-      box(scene, 0, 10, 132, 44, 3, 14, M.counter);
-      box(scene, -18, 5, 132, 2, 10, 2, M.metalLeg);
-      box(scene, 18, 5, 132, 2, 10, 2, M.metalLeg);
-      // Shoe rack
-      box(scene, -25, 4, 155, 18, 8, 10, M.furniture);
+    // --- BATHROOM ---
+    // Freestanding Oval Soaking Bathtub
+    addMesh(new THREE.CylinderGeometry(12, 10, 11, 16), materials.acrylicWhite, -15, 6.5, -95);
+    addMesh(new THREE.CylinderGeometry(0.8, 0.8, 8, 8), materials.metalChrome, -15, 10, -107); // Bath filler
 
-      // Door frame
-      box(scene, -16, 27.5, 164, 3, 55, 3, M.doorFrame);
-      box(scene, 16, 27.5, 164, 3, 55, 3, M.doorFrame);
-      box(scene, 0, 53, 164, 35, 3, 3, M.doorFrame); // lintel
-      // Door panel (partial)
-      box(scene, 0, 24, 164, 28, 48, 2, new THREE.MeshStandardMaterial({ color: 0x6b5b4b, roughness: 0.6 }));
+    // Vanity Cabinet, Sink & Mirror
+    addMesh(new THREE.BoxGeometry(26, 12, 12), materials.woodLight, 22, 7, -65);
+    addMesh(new THREE.BoxGeometry(28, 1.5, 13), materials.quartzWhite, 22, 13.5, -65);
+    addMesh(new THREE.BoxGeometry(14, 2, 8), materials.acrylicWhite, 22, 14.5, -65); // Basin
+    addMesh(new THREE.BoxGeometry(18, 18, 0.8), materials.glassTranslucent, 22, 26, -70); // Mirror
 
-      // Lock indicator
-      const lockMat = new THREE.MeshStandardMaterial({ color: 0x10b981, emissive: 0x10b981, emissiveIntensity: 0.6 });
-      lockMesh = box(scene, 12, 24, 162, 3, 4, 3, lockMat);
-    }
+    // Toilet Fixture
+    addMesh(new THREE.BoxGeometry(10, 10, 14), materials.acrylicWhite, 24, 6, -108);
+    addMesh(new THREE.BoxGeometry(10, 12, 6), materials.acrylicWhite, 24, 16, -112); // Tank
+
+    // Glass Shower Partition
+    addMesh(new THREE.BoxGeometry(0.8, 30, 24), materials.glassTranslucent, -3, 16, -65);
+
+    // --- ENTRANCE FOYER ---
+    // Entryway Console Table & Wall Mirror
+    addMesh(new THREE.BoxGeometry(32, 12, 8), materials.woodDark, 0, 7, 160);
+    addMesh(new THREE.BoxGeometry(20, 22, 0.6), materials.glassTranslucent, 0, 24, 163.5);
+    // Front Entrance Door Frame & Smart Lock
+    addMesh(new THREE.BoxGeometry(30, 42, 2), materials.woodDark, 0, 22, 121);
+    const lockMesh = addMesh(new THREE.BoxGeometry(3, 7, 2.5), materials.metalBlack, 11, 20, 120);
+
+    // --- UTILITY CORNER: WATER TANK TOWER ---
+    const tankGroup = new THREE.Group();
+    tankGroup.position.set(-170, 0, -110);
+    houseGroup.add(tankGroup);
+
+    // 4 Steel Legs & Braces
+    const legGeo = new THREE.CylinderGeometry(1.2, 1.2, 40, 8);
+    addMesh(legGeo, materials.metalBlack, -9, 20, -9, 0, true, tankGroup);
+    addMesh(legGeo, materials.metalBlack, 9, 20, -9, 0, true, tankGroup);
+    addMesh(legGeo, materials.metalBlack, -9, 20, 9, 0, true, tankGroup);
+    addMesh(legGeo, materials.metalBlack, 9, 20, 9, 0, true, tankGroup);
+
+    // Platform & Cylinder Tank
+    addMesh(new THREE.BoxGeometry(26, 2, 26), materials.metalBlack, 0, 40, 0, 0, true, tankGroup);
+    const tankBodyMesh = addMesh(new THREE.CylinderGeometry(10, 10, 28, 16), materials.metalChrome, 0, 55, 0, 0, true, tankGroup);
+    addMesh(new THREE.CylinderGeometry(11, 11, 2, 16), materials.metalBlack, 0, 69, 0, 0, true, tankGroup); // Cap
+
+    // Water level translucent window
+    const waterLevelMesh = addMesh(new THREE.CylinderGeometry(8.5, 8.5, 20, 16), new THREE.MeshStandardMaterial({
+      color: 0x0284c7, transparent: true, opacity: 0.85, roughness: 0.1
+    }), 0, 52, 0, 0, false, tankGroup);
 
     // ================================================================
-    // AGENT ORBS
+    // UTILITY OVERLAY FLOW LINES (Electricity & Plumbing & Climate)
     // ================================================================
-    const agentOrbs = [];
-    const agentBeams = [];
-    const agentRings = [];
-    const agentLabels = [];  // sprite labels
+    const utilitiesGroup = new THREE.Group();
+    houseGroup.add(utilitiesGroup);
 
-    function buildAgents() {
-      agentDefs.forEach((ag, i) => {
-        const pos = getAgentHomePos(ag.type);
-        ag._homeX = pos.x;
-        ag._homeZ = pos.z;
-        ag._angle = i * 1.25;
+    // 1. Plumbing Conduits (Water Pipe Network)
+    const plumbingPoints = [
+      new THREE.Vector3(-170, 42, -110), // Tank
+      new THREE.Vector3(-150, 42, -110),
+      new THREE.Vector3(-118, 16, -42),  // Kitchen Sink
+      new THREE.Vector3(-118, 6, -42),
+      new THREE.Vector3(-40, 6, -75),
+      new THREE.Vector3(-15, 6, -95),    // Bathtub
+      new THREE.Vector3(22, 6, -65),     // Vanity Sink
+      new THREE.Vector3(24, 6, -108)     // Toilet
+    ];
+    
+    const plumbingGeo = new THREE.BufferGeometry().setFromPoints(plumbingPoints);
+    const plumbingLine = new THREE.Line(plumbingGeo, new THREE.LineBasicMaterial({
+      color: 0x38bdf8, linewidth: 3, transparent: true, opacity: 0.95
+    }));
+    utilitiesGroup.add(plumbingLine);
 
-        // Glowing orb sphere
-        const orbGeo = new THREE.SphereGeometry(4, 20, 20);
-        const orbMat = new THREE.MeshStandardMaterial({
-          color: ag.color, emissive: ag.color, emissiveIntensity: 0.55,
-          metalness: 0.3, roughness: 0.4
-        });
-        const orb = new THREE.Mesh(orbGeo, orbMat);
-        orb.position.set(pos.x, ag.baseY, pos.z);
-        scene.add(orb);
-        agentOrbs.push(orb);
+    // Junction Dots on Plumbing
+    plumbingPoints.forEach(pt => {
+      const dot = new THREE.Mesh(new THREE.SphereGeometry(2, 8, 8), materials.conduitPlumbing);
+      dot.position.copy(pt);
+      utilitiesGroup.add(dot);
+    });
 
-        // Point light on agent
-        const orbLight = new THREE.PointLight(ag.color, 0.4, 60, 2);
-        orb.add(orbLight);
+    // 2. Electricity Conduits (Power Grid Overlay)
+    const powerPoints = [
+      new THREE.Vector3(-150, 48, 45), // Main Breaker
+      new THREE.Vector3(-75, 48, -26), // Living AC
+      new THREE.Vector3(-55, 12, 95),  // TV Media
+      new THREE.Vector3(-60, 38, -108),// Fridge
+      new THREE.Vector3(100, 48, -116),// Bedroom AC
+      new THREE.Vector3(0, 35, 121)    // Smart Entrance Lock
+    ];
+    const powerGeo = new THREE.BufferGeometry().setFromPoints(powerPoints);
+    const powerLine = new THREE.Line(powerGeo, new THREE.LineBasicMaterial({
+      color: 0xf59e0b, linewidth: 2, transparent: true, opacity: 0.9
+    }));
+    utilitiesGroup.add(powerLine);
 
-        // Vertical light beam
-        const beamH = ag.baseY - 1;
-        const beamGeo = new THREE.CylinderGeometry(0.4, 2.0, beamH, 8);
-        const beamMat = new THREE.MeshBasicMaterial({ color: ag.color, transparent: true, opacity: 0.12 });
-        const beam = new THREE.Mesh(beamGeo, beamMat);
-        beam.position.set(pos.x, beamH / 2 + 1, pos.z);
-        scene.add(beam);
-        agentBeams.push(beam);
+    powerPoints.forEach(pt => {
+      const dot = new THREE.Mesh(new THREE.SphereGeometry(1.8, 8, 8), materials.conduitElectric);
+      dot.position.copy(pt);
+      utilitiesGroup.add(dot);
+    });
 
-        // Ground ring
-        const ringGeo = new THREE.RingGeometry(6, 8, 32);
-        const ringMat = new THREE.MeshBasicMaterial({ color: ag.color, transparent: true, opacity: 0.25, side: THREE.DoubleSide });
-        const ring = new THREE.Mesh(ringGeo, ringMat);
-        ring.position.set(pos.x, 1.1, pos.z);
-        ring.rotation.x = -Math.PI / 2;
-        scene.add(ring);
-        agentRings.push(ring);
+    // ================================================================
+    // FIVE SPECIALIZED AGENT ORBS (Floating with Light Beams)
+    // ================================================================
+    const agentMeshes = [];
 
-        // Agent name label (canvas sprite)
-        const labelSprite = makeTextSprite(ag.name, ag.hexStr);
-        labelSprite.position.set(pos.x, ag.baseY + 10, pos.z);
-        scene.add(labelSprite);
-        agentLabels.push(labelSprite);
+    agentDefs.forEach(ad => {
+      const agGroup = new THREE.Group();
+      agGroup.position.set(ad.home.x, ad.baseY, ad.home.z);
+
+      // Glowing Sphere
+      const sphereMat = new THREE.MeshStandardMaterial({
+        color: ad.color,
+        emissive: ad.color,
+        emissiveIntensity: 1.2,
+        roughness: 0.2
       });
-    }
+      const orb = new THREE.Mesh(new THREE.SphereGeometry(3.5, 16, 16), sphereMat);
+      agGroup.add(orb);
 
-    function makeTextSprite(text, color) {
-      const cv = document.createElement('canvas');
-      cv.width = 256; cv.height = 64;
-      const cx = cv.getContext('2d');
-      cx.clearRect(0, 0, 256, 64);
-      cx.font = 'bold 28px Arial, sans-serif';
-      cx.textAlign = 'center';
-      cx.fillStyle = color;
-      cx.fillText(text, 128, 32);
-      cx.font = '18px monospace';
-      cx.fillStyle = 'rgba(255,255,255,0.6)';
+      // Vertical Light Beam Anchoring to Floor
+      const beamGeo = new THREE.CylinderGeometry(0.3, 1.8, ad.baseY, 12, 1, true);
+      const beamMat = new THREE.MeshBasicMaterial({
+        color: ad.color,
+        transparent: true,
+        opacity: 0.25,
+        side: THREE.DoubleSide
+      });
+      const beam = new THREE.Mesh(beamGeo, beamMat);
+      beam.position.y = -ad.baseY / 2;
+      agGroup.add(beam);
 
-      const tex = new THREE.CanvasTexture(cv);
-      tex.minFilter = THREE.LinearFilter;
-      const spriteMat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false });
-      const sprite = new THREE.Sprite(spriteMat);
-      sprite.scale.set(48, 12, 1);
-      return sprite;
-    }
+      // Pulsing Ground Ring
+      const ringGeo = new THREE.RingGeometry(2, 6, 20);
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: ad.color,
+        transparent: true,
+        opacity: 0.6,
+        side: THREE.DoubleSide
+      });
+      const ring = new THREE.Mesh(ringGeo, ringMat);
+      ring.rotation.x = -Math.PI / 2;
+      ring.position.y = -ad.baseY + 1.2;
+      agGroup.add(ring);
+
+      houseGroup.add(agGroup);
+      agentMeshes.push({ group: agGroup, def: ad, orb, beam, ring });
+    });
 
     // ================================================================
-    // PARTICLE SYSTEM
+    // FROSTED ROOM LABEL BADGES & LEADER LINES (SVG Overlay System)
     // ================================================================
-    const PARTICLE_COUNT = 120;
-    let particleSys, pPositions, pColors;
-    const pData = [];
+    const badgesLayer = document.getElementById('leader-lines-layer');
+    const badgesContainer = document.getElementById('room-badges-container');
 
-    function buildParticles() {
-      const geo = new THREE.BufferGeometry();
-      pPositions = new Float32Array(PARTICLE_COUNT * 3);
-      pColors = new Float32Array(PARTICLE_COUNT * 3);
+    // Create Badge Elements
+    Object.values(rooms).forEach(r => {
+      const badgeDiv = document.createElement('div');
+      badgeDiv.id = `badge-${r.id}`;
+      badgeDiv.className = 'glass-pill pointer-events-auto absolute rounded-full px-3 py-1 shadow-xl border border-slate-700/80 text-[11px] font-mono text-slate-200 cursor-pointer flex items-center space-x-1.5 transition transform -translate-x-1/2 -translate-y-1/2 hover:scale-105 hover:border-indigo-400';
+      badgeDiv.onclick = () => selectRoom(r.id);
+      badgeDiv.innerHTML = `
+        <span class="w-2 h-2 rounded-full ${r.occupied ? 'bg-emerald-400' : 'bg-slate-500'}"></span>
+        <span class="font-bold tracking-tight">${r.name.toUpperCase()}</span>
+        <span class="text-slate-400">&bull;</span>
+        <span id="badge-val-${r.id}" class="text-cyan-300 font-semibold">${r.temp.toFixed(1)}°C | ${r.watts}W</span>
+      `;
+      badgesContainer.appendChild(badgeDiv);
+    });
 
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const type = i % 3 === 0 ? 'air' : (i % 3 === 1 ? 'power' : 'water');
-        pData.push({
-          type,
-          vx: (Math.random() - 0.5) * 0.8,
-          vy: (Math.random() - 0.5) * 0.4,
-          vz: (Math.random() - 0.5) * 0.8,
-          life: Math.random()
-        });
-        const idx = i * 3;
-        pPositions[idx]     = (Math.random() - 0.5) * 200;
-        pPositions[idx + 1] = 10 + Math.random() * 40;
-        pPositions[idx + 2] = (Math.random() - 0.5) * 200;
-        setParticleColor(i, type, false);
-      }
+    function updateRoomBadgesAndLines() {
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
+      if (!width || !height) return;
 
-      geo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
-      geo.setAttribute('color', new THREE.BufferAttribute(pColors, 3));
+      let svgLines = '';
 
-      const mat = new THREE.PointsMaterial({
-        size: 2.5, vertexColors: true, transparent: true, opacity: 0.75,
-        blending: THREE.AdditiveBlending, depthWrite: false
+      Object.values(rooms).forEach(r => {
+        // Project 3D room anchor point to 2D screen coordinates
+        const anchor = r.anchor.clone();
+        anchor.project(camera);
+
+        const screenX = (anchor.x * 0.5 + 0.5) * width;
+        const screenY = (-(anchor.y * 0.5) + 0.5) * height;
+
+        const badgeDiv = document.getElementById(`badge-${r.id}`);
+        if (!badgeDiv) return;
+
+        // If room is behind the camera frustum, hide badge
+        if (anchor.z > 1.0) {
+          badgeDiv.style.display = 'none';
+          return;
+        }
+
+        badgeDiv.style.display = 'flex';
+
+        // Badge is placed slightly offset above the anchor
+        const badgeX = screenX;
+        const badgeY = screenY - 45;
+
+        badgeDiv.style.left = `${badgeX}px`;
+        badgeDiv.style.top = `${badgeY}px`;
+
+        // Dashed Leader Line from Dot to Badge (Reference Video Style)
+        const lineColor = (r.id === selectedRoomId) ? '#818cf8' : '#64748b';
+        svgLines += `
+          <!-- Anchor Dot -->
+          <circle cx="${screenX}" cy="${screenY}" r="3.5" fill="${lineColor}" />
+          <!-- Animated Dashed Leader Line -->
+          <line x1="${screenX}" y1="${screenY}" x2="${badgeX}" y2="${badgeY + 12}" stroke="${lineColor}" stroke-dasharray="3,3" stroke-width="1.2" class="animate-dash" opacity="0.8" />
+        `;
       });
 
-      particleSys = new THREE.Points(geo, mat);
-      scene.add(particleSys);
-    }
-
-    function setParticleColor(i, type, isLeak) {
-      const idx = i * 3;
-      if (type === 'air')   { pColors[idx] = 0.024; pColors[idx+1] = 0.714; pColors[idx+2] = 0.831; }
-      else if (type === 'power') { pColors[idx] = 0.961; pColors[idx+1] = 0.620; pColors[idx+2] = 0.043; }
-      else { // water
-        if (isLeak) { pColors[idx] = 0.94; pColors[idx+1] = 0.27; pColors[idx+2] = 0.27; }
-        else        { pColors[idx] = 0.23; pColors[idx+1] = 0.51; pColors[idx+2] = 0.96; }
-      }
-    }
-
-    function resetParticle(i) {
-      const pd = pData[i];
-      const idx = i * 3;
-      if (pd.type === 'air') {
-        pPositions[idx] = -30 + (Math.random()-0.5)*20;
-        pPositions[idx+1] = 40 + (Math.random()-0.5)*10;
-        pPositions[idx+2] = -20 + (Math.random()-0.5)*20;
-        pd.vx = (Math.random()-0.5)*1.2;
-        pd.vy = (Math.random()-0.5)*0.3;
-        pd.vz = 0.8 + Math.random()*1.5;
-      } else if (pd.type === 'power') {
-        pPositions[idx] = -80 + (Math.random()-0.5)*40;
-        pPositions[idx+1] = 15 + Math.random()*30;
-        pPositions[idx+2] = 20 + (Math.random()-0.5)*60;
-        pd.vx = (Math.random()-0.5)*0.6;
-        pd.vy = (Math.random()-0.5)*0.3;
-        pd.vz = (Math.random()-0.5)*0.6;
-      } else {
-        pPositions[idx] = -110 + (Math.random()-0.5)*30;
-        pPositions[idx+1] = 70 - Math.random()*60;
-        pPositions[idx+2] = -80 + (Math.random()-0.5)*30;
-        pd.vx = (Math.random()-0.5)*0.5;
-        pd.vy = -0.3 - Math.random()*0.5;
-        pd.vz = (Math.random()-0.5)*0.5;
-      }
+      badgesLayer.innerHTML = svgLines;
     }
 
     // ================================================================
-    // WATER TANK
+    // TIME-OF-DAY & MOOD SWITCHING
     // ================================================================
-    let waterTankBody, waterFillBody;
-
-    function buildWaterTank() {
-      const tx = -110, tz = -90;
-      const tg = new THREE.Group();
-
-      // 4 legs
-      const legGeo = new THREE.CylinderGeometry(1.5, 1.5, 75, 8);
-      [[-15,-15],[15,-15],[15,15],[-15,15]].forEach(([lx, lz]) => {
-        const leg = new THREE.Mesh(legGeo, M.metalLeg);
-        leg.position.set(tx + lx, 37.5, tz + lz);
-        leg.castShadow = true;
-        tg.add(leg);
+    window.setTimeOfDay = function(tod) {
+      timeOfDayMode = tod;
+      ['morning', 'home', 'sleep', 'away'].forEach(m => {
+        const btn = document.getElementById(`tod-${m}`);
+        if (btn) {
+          if (m === tod) {
+            btn.className = 'py-1 px-1 rounded text-[10px] text-center font-mono transition bg-indigo-600 text-white font-semibold shadow';
+          } else {
+            btn.className = 'py-1 px-1 rounded text-[10px] text-center font-mono transition bg-slate-800/80 text-slate-400 hover:text-white border border-slate-700/60';
+          }
+        }
       });
 
-      // Platform
-      box(tg, tx, 75, tz, 36, 2, 36, M.metalLeg, false);
-
-      // Cross braces
-      const braceGeo = new THREE.CylinderGeometry(0.8, 0.8, 42, 6);
-      const brace1 = new THREE.Mesh(braceGeo, M.metalLeg);
-      brace1.position.set(tx, 35, tz);
-      brace1.rotation.z = Math.PI / 4;
-      brace1.rotation.y = Math.PI / 4;
-      tg.add(brace1);
-
-      // Tank body (cylinder)
-      const tankGeo = new THREE.CylinderGeometry(16, 16, 35, 24);
-      waterTankBody = new THREE.Mesh(tankGeo, M.waterTank.clone());
-      waterTankBody.position.set(tx, 75 + 1 + 17.5, tz);
-      waterTankBody.castShadow = true;
-      tg.add(waterTankBody);
-
-      // Tank cap
-      const capGeo = new THREE.CylinderGeometry(10, 16, 5, 24);
-      const cap = new THREE.Mesh(capGeo, M.metalLeg);
-      cap.position.set(tx, 75 + 1 + 35 + 2.5, tz);
-      tg.add(cap);
-
-      // Water fill (72%)
-      const fillH = 35 * 0.72;
-      const fillGeo = new THREE.CylinderGeometry(14.5, 14.5, fillH, 24);
-      waterFillBody = new THREE.Mesh(fillGeo, M.waterFill.clone());
-      waterFillBody.position.set(tx, 75 + 1 + fillH / 2, tz);
-      tg.add(waterFillBody);
-
-      // Label
-      const lbl = makeTextSprite('WATER TANK 72%', '#60a5fa');
-      lbl.position.set(tx, 75 + 45, tz);
-      lbl.scale.set(42, 10, 1);
-      tg.add(lbl);
-      tg.userData._label = lbl;
-
-      scene.add(tg);
-      return tg;
-    }
-
-    // ================================================================
-    // SELECTION HIGHLIGHT
-    // ================================================================
-    let selBox;
-
-    function buildSelectionHighlight() {
-      const geo = new THREE.BoxGeometry(1, 0.3, 1);
-      const mat = new THREE.MeshBasicMaterial({ color: 0x6366f1, transparent: true, opacity: 0.2 });
-      selBox = new THREE.Mesh(geo, mat);
-      selBox.position.y = 1.5;
-      scene.add(selBox);
-      updateSelectionHighlight();
-    }
-
-    function updateSelectionHighlight() {
-      const r = rooms[selectedRoomId];
-      if (!r || !selBox) return;
-      const w = r.x2 - r.x1 + 4;
-      const d = r.z2 - r.z1 + 4;
-      selBox.scale.set(w, 1, d);
-      selBox.position.set((r.x1 + r.x2)/2, 1.2, (r.z1 + r.z2)/2);
-      selBox.material.opacity = 0.12 + Math.sin(time * 4) * 0.08;
-    }
-
-    // ================================================================
-    // CAMERA ORBIT SYSTEM
-    // ================================================================
-    const camS = {
-      yaw: 0.785, pitch: 0.58, distance: 620,
-      tYaw: 0.785, tPitch: 0.58, tDist: 620,
-      lx: 0, ly: 30, lz: 0,
-      tlx: 0, tly: 30, tlz: 0
+      if (tod === 'morning') {
+        // Warm golden hour sunlight
+        sunLight.color.setHex(0xffedd5);
+        sunLight.intensity = 1.1;
+        sunLight.position.set(300, 200, 200);
+        hemiLight.color.setHex(0xfde68a);
+        hemiLight.intensity = 0.6;
+        renderer.setClearColor(0x0c1322);
+      } else if (tod === 'home') {
+        // Bright daytime crisp natural light
+        sunLight.color.setHex(0xffffff);
+        sunLight.intensity = 0.95;
+        sunLight.position.set(240, 420, 200);
+        hemiLight.color.setHex(0x7da4d4);
+        hemiLight.intensity = 0.5;
+        renderer.setClearColor(0x070b12);
+      } else if (tod === 'sleep') {
+        // Deep cozy nighttime with glowing interior lamps
+        sunLight.intensity = 0.15;
+        sunLight.color.setHex(0x38bdf8);
+        hemiLight.intensity = 0.2;
+        roomLights.bedroom.intensity = 1.4;
+        roomLights.bedroom.color.setHex(0xfbbf24);
+        roomLights.living.intensity = 0.1;
+        renderer.setClearColor(0x04060a);
+      } else if (tod === 'away') {
+        // Cool dim blue-gray vacant mode
+        sunLight.intensity = 0.3;
+        sunLight.color.setHex(0x94a3b8);
+        hemiLight.intensity = 0.3;
+        Object.values(roomLights).forEach(pl => pl.intensity = 0.05);
+        renderer.setClearColor(0x06090f);
+      }
     };
 
-    function updateCamera() {
-      camS.yaw   += (camS.tYaw   - camS.yaw)   * 0.08;
-      camS.pitch += (camS.tPitch - camS.pitch) * 0.08;
-      camS.distance += (camS.tDist - camS.distance) * 0.08;
-      camS.lx += (camS.tlx - camS.lx) * 0.08;
-      camS.ly += (camS.tly - camS.ly) * 0.08;
-      camS.lz += (camS.tlz - camS.lz) * 0.08;
-
-      if (autoRotateEnabled) camS.tYaw += 0.0025;
-
-      const x = camS.lx + camS.distance * Math.cos(camS.pitch) * Math.sin(camS.yaw);
-      const y = camS.ly + camS.distance * Math.sin(camS.pitch);
-      const z = camS.lz + camS.distance * Math.cos(camS.pitch) * Math.cos(camS.yaw);
-
-      cam.position.set(x, y, z);
-      cam.lookAt(camS.lx, camS.ly, camS.lz);
-    }
-
     // ================================================================
-    // MOUSE / TOUCH CONTROLS
+    // UTILITY OVERLAY SWITCHING (Plumbing / Power / Climate)
     // ================================================================
-    let isDragging = false, isPanning = false, lastMX = 0, lastMY = 0;
-    let mouseDownX = 0, mouseDownY = 0, wasDrag = false;
+    window.setUtilityMode = function(mode) {
+      activeUtility = mode;
+      
+      const tabPlumb = document.getElementById('tab-util-plumbing');
+      const tabPower = document.getElementById('tab-util-power');
+      const tabAc = document.getElementById('tab-util-ac');
 
-    canvas.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      isPanning = e.button === 2 || e.shiftKey;
-      lastMX = e.clientX; lastMY = e.clientY;
-      mouseDownX = e.clientX; mouseDownY = e.clientY;
-      wasDrag = false;
-      autoRotateEnabled = false;
-      document.getElementById('btn-autorotate').classList.remove('text-indigo-300', 'bg-indigo-600/30');
-    });
-
-    window.addEventListener('mouseup', () => { isDragging = false; isPanning = false; });
-    canvas.addEventListener('contextmenu', e => e.preventDefault());
-
-    canvas.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      const dx = e.clientX - lastMX;
-      const dy = e.clientY - lastMY;
-      lastMX = e.clientX; lastMY = e.clientY;
-
-      if (Math.abs(e.clientX - mouseDownX) > 4 || Math.abs(e.clientY - mouseDownY) > 4) wasDrag = true;
-
-      if (isPanning) {
-        // Pan in camera-relative horizontal plane
-        const panX = -dx * 0.5;
-        const panZ = -dy * 0.5;
-        camS.tlx += panX * Math.cos(camS.yaw) + panZ * Math.sin(camS.yaw);
-        camS.tlz += -panX * Math.sin(camS.yaw) + panZ * Math.cos(camS.yaw);
-      } else {
-        camS.tYaw -= dx * 0.007;
-        camS.tPitch = Math.max(0.1, Math.min(1.4, camS.tPitch - dy * 0.007));
-      }
-    });
-
-    canvas.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      camS.tDist = Math.max(200, Math.min(1200, camS.tDist + e.deltaY * 0.6));
-    }, { passive: false });
-
-    // Touch controls
-    let touchStartDist = 0;
-    canvas.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        isDragging = true; isPanning = false;
-        lastMX = e.touches[0].clientX; lastMY = e.touches[0].clientY;
-        mouseDownX = lastMX; mouseDownY = lastMY; wasDrag = false;
-      } else if (e.touches.length === 2) {
-        touchStartDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-      }
-    }, { passive: true });
-
-    canvas.addEventListener('touchmove', (e) => {
-      e.preventDefault();
-      if (e.touches.length === 1 && isDragging) {
-        const dx = e.touches[0].clientX - lastMX;
-        const dy = e.touches[0].clientY - lastMY;
-        lastMX = e.touches[0].clientX; lastMY = e.touches[0].clientY;
-        if (Math.abs(e.touches[0].clientX - mouseDownX) > 4 || Math.abs(e.touches[0].clientY - mouseDownY) > 4) wasDrag = true;
-        camS.tYaw -= dx * 0.007;
-        camS.tPitch = Math.max(0.1, Math.min(1.4, camS.tPitch - dy * 0.007));
-      } else if (e.touches.length === 2) {
-        const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-        camS.tDist = Math.max(200, Math.min(1200, camS.tDist - (dist - touchStartDist) * 1.5));
-        touchStartDist = dist;
-      }
-    }, { passive: false });
-
-    canvas.addEventListener('touchend', () => { isDragging = false; });
-
-    // ================================================================
-    // RAYCASTER CLICK-TO-INSPECT
-    // ================================================================
-    const raycaster = new THREE.Raycaster();
-    const mouseNDC = new THREE.Vector2();
-
-    canvas.addEventListener('click', (e) => {
-      if (wasDrag) return;
-
-      const rect = canvas.getBoundingClientRect();
-      mouseNDC.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      mouseNDC.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-
-      raycaster.setFromCamera(mouseNDC, cam);
-      const floors = Object.values(roomFloors);
-      const hits = raycaster.intersectObjects(floors, false);
-      if (hits.length > 0 && hits[0].object.userData.roomId) {
-        selectRoom(hits[0].object.userData.roomId);
-      }
-    });
-
-    // ================================================================
-    // STATE-BASED LIGHTING
-    // ================================================================
-    function updateLighting() {
-      // Reset all to defaults first
-      Object.values(roomLights).forEach(l => { l.color.set(0xffeedd); l.intensity = 0.25; });
-
-      if (globalHomeState === 'HOME') {
-        roomLights.living.intensity = 0.9;
-        roomLights.living.color.set(0xffeedd);
-        roomLights.kitchen.intensity = 0.35;
-        roomLights.bedroom.intensity = 0.15;
-        roomLights.entrance.intensity = 0.3;
-        roomLights.bathroom.intensity = 0.2;
-      } else if (globalHomeState === 'AWAY') {
-        Object.values(roomLights).forEach(l => { l.intensity = 0.08; l.color.set(0x4466aa); });
-        roomLights.entrance.intensity = 0.15;
-      } else if (globalHomeState === 'SLEEP') {
-        roomLights.living.intensity = 0.04;
-        roomLights.kitchen.intensity = 0.04;
-        roomLights.bedroom.intensity = 0.45;
-        roomLights.bedroom.color.set(0xffcc88);
-        roomLights.bathroom.intensity = 0.08;
-        roomLights.entrance.intensity = 0.06;
-      } else if (globalHomeState === 'MORNING') {
-        roomLights.bedroom.intensity = 0.65;
-        roomLights.bedroom.color.set(0xffeebb);
-        roomLights.kitchen.intensity = 0.55;
-        roomLights.kitchen.color.set(0xffeedd);
-        roomLights.living.intensity = 0.3;
-        roomLights.bathroom.intensity = 0.35;
-        roomLights.entrance.intensity = 0.2;
-      } else if (globalHomeState === 'EMERGENCY') {
-        Object.values(roomLights).forEach(l => { l.intensity = 0.4; l.color.set(0xffeedd); });
-        roomLights.bathroom.color.set(0xff3333);
-        roomLights.bathroom.intensity = 0.7 + Math.sin(time * 6) * 0.3;
-      }
-
-      if (leakActive) {
-        roomLights.bathroom.color.set(0xff3333);
-        roomLights.bathroom.intensity = 0.6 + Math.sin(time * 8) * 0.3;
-      }
-    }
-
-    // ================================================================
-    // DEVICE STATE UPDATES
-    // ================================================================
-    function updateDeviceStates() {
-      // TV: emissive when HOME
-      if (tvMesh) {
-        const tvOn = globalHomeState === 'HOME';
-        tvMesh.material.emissive.set(tvOn ? 0x220044 : 0x000000);
-        tvMesh.material.emissiveIntensity = tvOn ? (0.4 + Math.sin(time * 2) * 0.1) : 0;
-      }
-
-      // AC glow indicators
-      if (acGlowLiving) {
-        const acOn = globalHomeState === 'HOME' || globalHomeState === 'MORNING';
-        acGlowLiving.material.opacity = acOn ? (0.3 + Math.sin(time * 3) * 0.15) : 0;
-      }
-      if (acGlowBed) {
-        const acOn = globalHomeState === 'SLEEP' || globalHomeState === 'MORNING';
-        acGlowBed.material.opacity = acOn ? (0.3 + Math.sin(time * 3) * 0.15) : 0;
-      }
-
-      // Lock indicator
-      if (lockMesh) {
-        const locked = globalHomeState !== 'HOME';
-        lockMesh.material.color.set(locked ? 0x10b981 : 0xf43f5e);
-        lockMesh.material.emissive.set(locked ? 0x10b981 : 0xf43f5e);
-        lockMesh.material.emissiveIntensity = 0.4 + Math.sin(time * 4) * 0.2;
-      }
-
-      // Water tank during leak
-      if (waterTankBody && waterFillBody) {
-        if (leakActive) {
-          waterTankBody.material.color.set(0xcc3333);
-          waterTankBody.material.emissive = new THREE.Color(0x661111);
-          waterTankBody.material.emissiveIntensity = 0.2 + Math.sin(time * 6) * 0.15;
-          waterFillBody.material.color.set(0xef4444);
-          waterFillBody.material.emissive = new THREE.Color(0xaa2222);
-          waterFillBody.material.emissiveIntensity = 0.3 + Math.sin(time * 6) * 0.2;
-        } else {
-          waterTankBody.material.color.set(0x3388cc);
-          waterTankBody.material.emissive = new THREE.Color(0x000000);
-          waterTankBody.material.emissiveIntensity = 0;
-          waterFillBody.material.color.set(0x3b82f6);
-          waterFillBody.material.emissive = new THREE.Color(0x1a4f8a);
-          waterFillBody.material.emissiveIntensity = 0.15;
-        }
-      }
-    }
-
-    // ================================================================
-    // ANIMATION LOOP
-    // ================================================================
-    function updateAgents() {
-      agentDefs.forEach((ag, i) => {
-        ag._angle += ag.speed;
-        const orb = agentOrbs[i];
-        const beam = agentBeams[i];
-        const ring = agentRings[i];
-        const lbl = agentLabels[i];
-
-        const bobY = ag.baseY + Math.sin(time * 2 + i * 0.8) * 3;
-        const ox = ag._homeX + Math.cos(ag._angle) * 5;
-        const oz = ag._homeZ + Math.sin(ag._angle) * 5;
-
-        orb.position.set(ox, bobY, oz);
-        orb.material.emissiveIntensity = 0.4 + Math.sin(time * 3 + i) * 0.2;
-
-        beam.position.set(ox, bobY / 2, oz);
-        beam.scale.y = bobY / ag.baseY;
-
-        ring.position.set(ox, 1.1, oz);
-        ring.material.opacity = 0.15 + Math.sin(time * 3 + i) * 0.1;
-        ring.scale.set(1 + Math.sin(time * 2 + i) * 0.1, 1 + Math.sin(time * 2 + i) * 0.1, 1);
-
-        lbl.position.set(ox, bobY + 9, oz);
+      [tabPlumb, tabPower, tabAc].forEach(t => {
+        t.className = 'px-2 py-1 rounded-lg text-[11px] font-medium transition bg-slate-800/80 text-slate-400 border border-slate-700/60 hover:text-white flex items-center space-x-1';
       });
-    }
 
-    function updateParticles() {
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const pd = pData[i];
-        const idx = i * 3;
-
-        const vis = (pd.type === 'air' && particlesEnabled.airflow) ||
-                    (pd.type === 'power' && particlesEnabled.power) ||
-                    (pd.type === 'water' && particlesEnabled.water);
-
-        if (!vis) { pPositions[idx + 1] = -500; continue; }
-
-        pPositions[idx]   += pd.vx;
-        pPositions[idx+1] += pd.vy;
-        pPositions[idx+2] += pd.vz;
-        pd.life += 0.015;
-
-        if (pd.life > 1 || Math.abs(pPositions[idx]) > 180 || Math.abs(pPositions[idx+2]) > 180) {
-          pd.life = 0;
-          resetParticle(i);
-        }
-
-        setParticleColor(i, pd.type, leakActive);
+      if (mode === 'plumbing') {
+        tabPlumb.className = 'px-2 py-1 rounded-lg text-[11px] font-medium transition bg-blue-500/20 text-blue-300 border border-blue-500/40 flex items-center space-x-1';
+        plumbingLine.visible = true;
+        powerLine.visible = false;
+      } else if (mode === 'power') {
+        tabPower.className = 'px-2 py-1 rounded-lg text-[11px] font-medium transition bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center space-x-1';
+        plumbingLine.visible = false;
+        powerLine.visible = true;
+      } else if (mode === 'climate') {
+        tabAc.className = 'px-2 py-1 rounded-lg text-[11px] font-medium transition bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 flex items-center space-x-1';
+        plumbingLine.visible = false;
+        powerLine.visible = false;
       }
-      particleSys.geometry.attributes.position.needsUpdate = true;
-      particleSys.geometry.attributes.color.needsUpdate = true;
-    }
-
-    function animate() {
-      requestAnimationFrame(animate);
-      time += 0.016;
-
-      updateCamera();
-      updateLighting();
-      updateAgents();
-      updateParticles();
-      updateSelectionHighlight();
-      updateDeviceStates();
-
-      renderer.render(scene, cam);
-    }
+    };
 
     // ================================================================
-    // UI FUNCTIONS (preserved signatures)
+    // CAMERA PRESET POSITIONS
     // ================================================================
-    function selectRoom(roomId) {
-      selectedRoomId = roomId;
-      const r = rooms[roomId];
-      if (!r) return;
+    window.setCameraPreset = function(preset) {
+      ['iso', 'top', 'living', 'bedroom'].forEach(p => {
+        const btn = document.getElementById(`btn-preset-${p}`);
+        if (btn) {
+          btn.className = (p === preset)
+            ? 'px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-mono text-[11px] font-semibold shadow transition'
+            : 'px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono text-[11px] transition';
+        }
+      });
 
-      document.getElementById('target-name').innerText = r.name;
-      document.getElementById('target-desc').innerText = r.desc;
-      document.getElementById('target-temp').innerText = `${r.temp.toFixed(1)} C`;
-      document.getElementById('target-watts').innerText = `${r.watts.toLocaleString()} W`;
-      updateSelectionHighlight();
-    }
-
-    function setCameraPreset(preset) {
-      autoRotateEnabled = false;
-      document.getElementById('btn-autorotate').classList.remove('text-indigo-300', 'bg-indigo-600/30');
       if (preset === 'isometric') {
-        camS.tYaw = 0.785; camS.tPitch = 0.58; camS.tDist = 620;
-        camS.tlx = 0; camS.tly = 30; camS.tlz = 0;
+        targetYaw = -0.785; targetPitch = 0.58; targetDist = 580;
+        lookTarget.set(0, 10, 15);
       } else if (preset === 'top') {
-        camS.tYaw = 0; camS.tPitch = 1.38; camS.tDist = 700;
-        camS.tlx = 0; camS.tly = 0; camS.tlz = 0;
+        targetYaw = 0; targetPitch = 1.52; targetDist = 650;
+        lookTarget.set(0, 10, 15);
       } else if (preset === 'living') {
+        targetYaw = -0.55; targetPitch = 0.42; targetDist = 340;
+        lookTarget.set(-55, 10, 45);
         selectRoom('living');
-        camS.tYaw = 0.45; camS.tPitch = 0.45; camS.tDist = 400;
-        camS.tlx = -55; camS.tly = 25; camS.tlz = 45;
       } else if (preset === 'bedroom') {
+        targetYaw = -1.1; targetPitch = 0.45; targetDist = 320;
+        lookTarget.set(100, 10, -45);
         selectRoom('bedroom');
-        camS.tYaw = 1.1; camS.tPitch = 0.50; camS.tDist = 380;
-        camS.tlx = 100; camS.tly = 25; camS.tlz = -45;
       }
-    }
+    };
 
-    function toggleAutoRotate() {
+    window.toggleAutoRotate = function() {
       autoRotateEnabled = !autoRotateEnabled;
       const btn = document.getElementById('btn-autorotate');
-      if (autoRotateEnabled) {
-        btn.classList.add('text-indigo-300', 'bg-indigo-600/30');
-      } else {
-        btn.classList.remove('text-indigo-300', 'bg-indigo-600/30');
+      btn.className = autoRotateEnabled
+        ? 'px-2 py-1 rounded-lg bg-indigo-600/30 text-indigo-300 border border-indigo-500/40 font-mono text-[11px] transition'
+        : 'px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 font-mono text-[11px] transition';
+    };
+
+    // ================================================================
+    // ROOM SELECTION & INSPECTOR
+    // ================================================================
+    window.selectRoom = function(id) {
+      if (!rooms[id]) return;
+      selectedRoomId = id;
+      const r = rooms[id];
+
+      document.getElementById('target-name').textContent = r.name;
+      document.getElementById('target-desc').textContent = r.desc;
+      document.getElementById('target-temp').textContent = `${r.temp.toFixed(1)} °C`;
+      document.getElementById('target-watts').textContent = `${r.watts} W`;
+
+      // Update Mini Floorplan SVG Active Indicator
+      ['living', 'bedroom', 'kitchen', 'bathroom', 'entrance'].forEach(k => {
+        const miniEl = document.getElementById(`mini-${k}`);
+        if (miniEl) {
+          if (k === id) {
+            miniEl.setAttribute('stroke-width', '4');
+            miniEl.setAttribute('stroke', '#ffffff');
+          } else {
+            miniEl.setAttribute('stroke-width', '2');
+            miniEl.setAttribute('stroke', (k === 'living') ? '#6366f1' : (k === 'bedroom') ? '#06b6d4' : (k === 'kitchen') ? '#f59e0b' : (k === 'bathroom') ? '#10b981' : '#94a3b8');
+          }
+        }
+      });
+    };
+
+    // ================================================================
+    // SCENARIO RUNNER & LIVE SYNC
+    // ================================================================
+    window.runScenario = async function(id) {
+      try {
+        const res = await fetch(`/api/scenario/${id}`, { method: 'POST' });
+        if (res.ok) {
+          const report = await res.json();
+          if (id === 3 || id === '3') {
+            leakActive = true;
+            plumbingLine.material.color.setHex(0xf43f5e);
+            document.getElementById('stat-sec-pill').className = 'glass-pill px-2.5 py-1 rounded-lg flex items-center space-x-1.5 text-xs text-rose-400 border-rose-500/50';
+            document.getElementById('stat-sec-text').textContent = 'LEAK ALERT';
+          } else {
+            leakActive = false;
+            plumbingLine.material.color.setHex(0x38bdf8);
+            document.getElementById('stat-sec-pill').className = 'glass-pill px-2.5 py-1 rounded-lg flex items-center space-x-1.5 text-xs text-emerald-400 border-emerald-500/30';
+            document.getElementById('stat-sec-text').textContent = 'SECURE';
+          }
+          syncWithBackend();
+        }
+      } catch (e) {
+        console.warn('Scenario executed in offline mode', e);
       }
-    }
+    };
 
-    function toggleParticles(type) {
-      particlesEnabled[type] = !particlesEnabled[type];
-      const btnId = type === 'airflow' ? 'btn-airflow' : (type === 'power' ? 'btn-powergrid' : 'btn-waterflow');
-      const btn = document.getElementById(btnId);
-      if (particlesEnabled[type]) { btn.classList.remove('opacity-40'); }
-      else { btn.classList.add('opacity-40'); }
-    }
-
-    function setGlobalState(state) {
+    window.setGlobalState = function(state) {
       globalHomeState = state;
-      document.getElementById('home-state-text').innerText = state;
+      document.getElementById('home-state-text').textContent = state;
       const badge = document.getElementById('state-badge');
 
       if (state === 'AWAY') {
-        badge.className = 'flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold tracking-wide';
-        rooms.living.watts = 120; rooms.bedroom.watts = 0; rooms.living.temp = 27.5;
-      } else if (state === 'SLEEP') {
-        badge.className = 'flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-semibold tracking-wide';
-        rooms.living.watts = 60; rooms.bedroom.watts = 950; rooms.bedroom.temp = 23.5;
-      } else if (state === 'EMERGENCY') {
         badge.className = 'flex items-center space-x-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-semibold tracking-wide';
+        setTimeOfDay('away');
+      } else if (state === 'SLEEP') {
+        badge.className = 'flex items-center space-x-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold tracking-wide';
+        setTimeOfDay('sleep');
       } else if (state === 'MORNING') {
         badge.className = 'flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold tracking-wide';
-        rooms.bedroom.watts = 950; rooms.bedroom.temp = 24.0; rooms.kitchen.watts = 400;
+        setTimeOfDay('morning');
       } else {
         badge.className = 'flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold tracking-wide';
-        rooms.living.watts = 1420; rooms.bedroom.watts = 45; rooms.living.temp = 24.0;
+        setTimeOfDay('home');
       }
+    };
 
-      const totalWatts = Object.values(rooms).reduce((sum, r) => sum + r.watts, 0);
-      document.getElementById('hud-power').innerText = `${totalWatts.toLocaleString()} W`;
-      selectRoom(selectedRoomId);
-      addChatMessage('System', `Global Home State transitioned to [${state}]. Specialized agents reconfigured policies.`);
-    }
-
-    function runScenario(num) {
-      if (num === 1) {
-        setGlobalState('MORNING');
-        setCameraPreset('bedroom');
-        addChatMessage('Home Manager', 'Executing Scenario 1: Morning Routine. Comfort Agent warming bedroom to 24 C, gentle fan speed, disarming perimeter.');
-      } else if (num === 2) {
-        setGlobalState('AWAY');
-        setCameraPreset('isometric');
-        addChatMessage('Home Manager', 'Executing Scenario 2: Leaving Home. Discretionary loads shed (saving 1.2 kW), doors locked, perimeter armed.');
-      } else if (num === 3) {
-        leakActive = true;
-        setGlobalState('AWAY');
-        setCameraPreset('top');
-        document.getElementById('hud-water').innerText = '680 L (LEAK 4.2L/m)';
-        document.getElementById('hud-water').classList.add('text-rose-400');
-        addChatMessage('Resource Agent', 'CRITICAL: Abnormal water outflow detected (4.2 L/min) while home is unoccupied!');
-        addChatMessage('Home Manager', 'Security Agent verified 0 motion sensor detections. Correlated incident: High probability of water pipe breach. Recommending valve shutoff.');
-        switchTab('why');
-      }
-    }
-
-    function switchTab(tabId) {
-      ['agents', 'chat', 'comms', 'why'].forEach(t => {
-        document.getElementById(`tab-pane-${t}`).classList.add('hidden');
-        document.getElementById(`tab-btn-${t}`).className = 'flex-1 py-2 font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition';
-      });
-      document.getElementById(`tab-pane-${tabId}`).classList.remove('hidden');
-      document.getElementById(`tab-btn-${tabId}`).className = 'flex-1 py-2 font-medium border-b-2 border-indigo-500 text-indigo-300 transition';
-    }
-
+    // Chat handling
     function addChatMessage(author, text) {
       const stream = document.getElementById('chat-stream');
       const msgDiv = document.createElement('div');
@@ -1420,12 +1315,12 @@
       stream.scrollTop = stream.scrollHeight;
     }
 
-    function sendQuickPrompt(promptText) {
+    window.sendQuickPrompt = function(promptText) {
       document.getElementById('chat-input-text').value = promptText;
       handleChatSubmit(new Event('submit'));
-    }
+    };
 
-    function handleChatSubmit(e) {
+    window.handleChatSubmit = function(e) {
       if (e) e.preventDefault();
       const input = document.getElementById('chat-input-text');
       const text = input.value.trim();
@@ -1438,14 +1333,15 @@
         const lower = text.toLowerCase();
         if (lower.includes('sleep') || lower.includes('bed')) {
           setGlobalState('SLEEP');
-          addChatMessage('Home Manager', 'Parsed intent: SLEEP_MODE. Delegated to Comfort Agent (bedroom AC 23.5 C), Energy Agent (non-essential loads off), and Security Agent (front door locked).');
+          addChatMessage('Home Manager', 'Parsed intent: SLEEP_MODE. Transitioned to SLEEP; dimmed interior lights, quiet bedroom AC set, front door locked.');
         } else if (lower.includes('leaving') || lower.includes('college') || lower.includes('depart')) {
           setGlobalState('AWAY');
-          addChatMessage('Home Manager', 'Parsed intent: LEAVING_HOME. Contextual habit matched (Alex Morgan weekday 08:30 departure). Shedding loads and arming perimeter.');
+          addChatMessage('Home Manager', 'Parsed intent: LEAVING_HOME. Shedding non-essential loads, AC shut down, away perimeter defense armed.');
         } else if (lower.includes('back') || lower.includes('return') || lower.includes('home') || lower.includes('arrived')) {
           setGlobalState('HOME');
           rooms.living.occupied = true;
-          addChatMessage('Home Manager', 'Parsed intent: RETURN_HOME. Resident arrival detected in Entrance and Living Room. Disarmed perimeter, unlocked entrance, and restored daytime comfort.');
+          rooms.entrance.occupied = true;
+          addChatMessage('Home Manager', 'Parsed intent: RETURN_HOME. Welcome home! Perimeter disarmed, entrance unlocked, welcoming comfort restored.');
         } else if (lower.includes('energy') || lower.includes('power') || lower.includes('watt')) {
           addChatMessage('Energy Agent', 'Current total electrical demand is 2,140 W. Top consumer is Living Room AC (1,400 W). Grid tariff is currently in off-peak standard pricing.');
         } else if (lower.includes('secure') || lower.includes('safe') || lower.includes('door')) {
@@ -1453,62 +1349,184 @@
         } else {
           addChatMessage('Home Manager', `Understood request: "${text}". Delegating domain analysis to specialized agents.`);
         }
-      }, 400);
-    }
+      }, 350);
+    };
 
+    window.switchTab = function(tabKey) {
+      ['agents', 'chat', 'comms', 'why'].forEach(k => {
+        const pane = document.getElementById(`tab-pane-${k}`);
+        const btn = document.getElementById(`tab-btn-${k}`);
+        if (k === tabKey) {
+          pane.classList.remove('hidden');
+          btn.className = 'flex-1 py-2 font-medium border-b-2 border-indigo-500 text-indigo-300 transition';
+        } else {
+          pane.classList.add('hidden');
+          btn.className = 'flex-1 py-2 font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition';
+        }
+      });
+    };
+
+    // Live Backend Polling
     async function syncWithBackend() {
       try {
         const res = await fetch('/api/overview');
-        if (res.ok) {
-          const data = await res.json();
-          if (data.home_state) setGlobalState(data.home_state);
-          if (data.clock_display) document.getElementById('clock-display').innerText = data.clock_display;
-          if (data.energy_summary) document.getElementById('hud-power').innerText = `${Math.round(data.energy_summary.current_power_watts)} W`;
+        if (!res.ok) return;
+        const data = await res.json();
+
+        if (data.home_state) setGlobalState(data.home_state);
+        if (data.sim_time) document.getElementById('clock-display').textContent = data.sim_time;
+
+        if (data.energy) {
+          document.getElementById('stat-watts').textContent = `${data.energy.instant_power_watts.toFixed(0)} W`;
         }
-      } catch (err) { /* Standalone offline mode */ }
+        if (data.water) {
+          document.getElementById('stat-water').textContent = `${data.water.tank_percent.toFixed(0)}%`;
+          leakActive = !!data.water.leak_detected;
+          if (leakActive) {
+            plumbingLine.material.color.setHex(0xf43f5e);
+            document.getElementById('stat-sec-pill').className = 'glass-pill px-2.5 py-1 rounded-lg flex items-center space-x-1.5 text-xs text-rose-400 border-rose-500/50';
+            document.getElementById('stat-sec-text').textContent = 'LEAK ALERT';
+          }
+        }
+        if (data.rooms) {
+          Object.keys(data.rooms).forEach(rk => {
+            const mappedId = (rk === 'living_room') ? 'living' : rk;
+            if (rooms[mappedId]) {
+              rooms[mappedId].temp = data.rooms[rk].temperature;
+              rooms[mappedId].occupied = data.rooms[rk].occupied;
+              const valEl = document.getElementById(`badge-val-${mappedId}`);
+              if (valEl) valEl.textContent = `${rooms[mappedId].temp.toFixed(1)}°C | ${rooms[mappedId].watts}W`;
+            }
+          });
+        }
+      } catch (e) {}
+    }
+    setInterval(syncWithBackend, 3000);
+    syncWithBackend();
+
+    // ================================================================
+    // RAYCASTING (Click on 3D furniture/floors to inspect)
+    // ================================================================
+    const raycaster = new THREE.Raycaster();
+    const mouseVec = new THREE.Vector2();
+
+    function onPointerDown(e) {
+      isDragging = true;
+      wasDrag = false;
+      prevMouse.x = e.clientX;
+      prevMouse.y = e.clientY;
+      downMouse.x = e.clientX;
+      downMouse.y = e.clientY;
+      isPanning = (e.button === 2 || e.shiftKey);
     }
 
-    // ================================================================
-    // EXPOSE TO GLOBAL SCOPE (for HTML onclick handlers)
-    // ================================================================
-    window.setGlobalState = setGlobalState;
-    window.runScenario = runScenario;
-    window.setCameraPreset = setCameraPreset;
-    window.toggleAutoRotate = toggleAutoRotate;
-    window.toggleParticles = toggleParticles;
-    window.switchTab = switchTab;
-    window.sendQuickPrompt = sendQuickPrompt;
-    window.handleChatSubmit = handleChatSubmit;
-    window.selectRoom = selectRoom;
+    function onPointerMove(e) {
+      if (!isDragging) return;
+      const dx = e.clientX - prevMouse.x;
+      const dy = e.clientY - prevMouse.y;
 
-    // ================================================================
-    // RESIZE HANDLER
-    // ================================================================
+      if (Math.abs(e.clientX - downMouse.x) > 4 || Math.abs(e.clientY - downMouse.y) > 4) {
+        wasDrag = true;
+      }
+
+      if (isPanning) {
+        const panSpeed = 0.5;
+        const right = new THREE.Vector3(Math.cos(camYaw), 0, -Math.sin(camYaw));
+        lookTarget.addScaledVector(right, -dx * panSpeed);
+        lookTarget.y += dy * panSpeed;
+      } else {
+        targetYaw += dx * 0.005;
+        targetPitch = Math.max(0.12, Math.min(1.52, targetPitch + dy * 0.005));
+      }
+
+      prevMouse.x = e.clientX;
+      prevMouse.y = e.clientY;
+    }
+
+    function onPointerUp(e) {
+      isDragging = false;
+      if (!wasDrag) {
+        // Perform raycast click inspection
+        const rect = canvas.getBoundingClientRect();
+        mouseVec.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        mouseVec.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(mouseVec, camera);
+        const intersects = raycaster.intersectObjects(Object.values(roomFloorMeshes), true);
+
+        if (intersects.length > 0) {
+          const hitMesh = intersects[0].object;
+          if (hitMesh.userData && hitMesh.userData.roomId) {
+            selectRoom(hitMesh.userData.roomId);
+          }
+        }
+      }
+    }
+
+    function onWheel(e) {
+      e.preventDefault();
+      targetDist = Math.max(220, Math.min(1100, targetDist + e.deltaY * 0.5));
+    }
+
+    canvas.addEventListener('mousedown', onPointerDown);
+    window.addEventListener('mousemove', onPointerMove);
+    window.addEventListener('mouseup', onPointerUp);
+    canvas.addEventListener('wheel', onWheel, { passive: false });
+    canvas.addEventListener('contextmenu', e => e.preventDefault());
+
+    // Window Resize
     function onResize() {
-      const parent = canvas.parentElement;
-      const w = parent.clientWidth;
-      const h = parent.clientHeight;
-      cam.aspect = w / h;
-      cam.updateProjectionMatrix();
+      const p = canvas.parentElement;
+      if (!p) return;
+      const w = p.clientWidth;
+      const h = p.clientHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
       renderer.setSize(w, h);
     }
     window.addEventListener('resize', onResize);
     onResize();
 
     // ================================================================
-    // INITIALIZATION
+    // ANIMATION & RENDER LOOP
     // ================================================================
-    buildGround();
-    Object.keys(rooms).forEach(key => buildRoom(key, rooms[key]));
-    buildAllFurniture();
-    buildAgents();
-    buildParticles();
-    buildWaterTank();
-    buildSelectionHighlight();
-    selectRoom('living');
-    syncWithBackend();
-    animate();
+    function animate() {
+      requestAnimationFrame(animate);
+      animTime += 0.025;
 
+      // Auto-rotation in Orbit mode
+      if (autoRotateEnabled && !isDragging) {
+        targetYaw += 0.0018;
+      }
+
+      updateCamera();
+
+      // Animate Agent Orbs (Bobbing & Light Beam Pulses)
+      agentMeshes.forEach((ag, idx) => {
+        const bob = Math.sin(animTime * 2 + idx * 1.2) * 1.8;
+        ag.orb.position.y = bob;
+        ag.ring.scale.setScalar(1 + Math.sin(animTime * 3 + idx) * 0.15);
+      });
+
+      // Animate Plumbing Flow / Leak Alert Pulse
+      if (leakActive) {
+        const pulse = 0.5 + Math.sin(animTime * 6) * 0.5;
+        plumbingLine.material.opacity = pulse;
+        waterLevelMesh.material.color.setHex((pulse > 0.5) ? 0xf43f5e : 0x0284c7);
+      } else {
+        plumbingLine.material.opacity = 0.9;
+        waterLevelMesh.material.color.setHex(0x0284c7);
+      }
+
+      // Render 3D Scene
+      renderer.render(scene, camera);
+
+      // Render 2D Dashed Leader Lines & Badges Overlay
+      updateRoomBadgesAndLines();
+    }
+
+    animate();
+    selectRoom('living');
   </script>
 </body>
 </html>
